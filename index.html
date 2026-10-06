@@ -1,0 +1,2325 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semutz — The operating system for FMCG distribution</title>
+<meta name="description" content="Semutz builds and runs the software FMCG companies operate on every day: SFA, WMS, TMS and ERP on one shared trail of master data — from sales rep to retail shelf.">
+<meta name="theme-color" content="#1A1210">
+<meta name="color-scheme" content="dark light">
+<link rel="canonical" href="https://semutz.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Semutz — The operating system for FMCG distribution">
+<meta property="og:description" content="Four connected products — SFA, WMS, TMS, ERP. One trail from supplier to retail shelf.">
+<meta property="og:site_name" content="Semutz">
+<meta name="twitter:card" content="summary_large_image">
+<script>document.documentElement.classList.add("js");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Semutz","url":"https://semutz.com/","description":"Software products for FMCG distribution: SFA, WMS, TMS and ERP on one shared data layer.","makesOffer":[{"@type":"Offer","itemOffered":{"@type":"SoftwareApplication","name":"Semutz SFA","applicationCategory":"BusinessApplication"}},{"@type":"Offer","itemOffered":{"@type":"SoftwareApplication","name":"Semutz WMS","applicationCategory":"BusinessApplication"}},{"@type":"Offer","itemOffered":{"@type":"SoftwareApplication","name":"Semutz TMS","applicationCategory":"BusinessApplication"}},{"@type":"Offer","itemOffered":{"@type":"SoftwareApplication","name":"Semutz ERP","applicationCategory":"BusinessApplication"}}]}
+</script>
+<style>
+/* ============================================================
+   SEMUTZ DESIGN TOKENS
+   Warm charcoal base · orange→red gradient · Sora / Inter / Plex Mono
+   ============================================================ */
+:root{
+  --ink:#1A1210;          /* deep charcoal - warm dark base */
+  --ink-2:#2A2320;        /* dark slate */
+  --orange:#EA580C;
+  --orange-600:#EA580C;
+  --red:#DC2626;
+  --red-600:#DC2626;
+  --amber:#F59E0B;
+  --gold:#FBBF24;
+  --white:#FFFFFF;
+  --paper-2:#F5F1EE;      /* warm light gray */
+
+  --grad:linear-gradient(100deg,var(--orange) 0%,var(--red) 100%);
+  --grad-soft:linear-gradient(100deg,rgba(234,88,12,.16),rgba(220,38,38,.10));
+
+  /* semantic — dark theme (default) */
+  --bg:#120D0B;
+  --bg-2:#1A1210;
+  --surface:rgba(255,255,255,.036);
+  --surface-solid:#221A17;
+  --surface-2:rgba(255,255,255,.055);
+  --line:rgba(255,255,255,.10);
+  --line-strong:rgba(255,255,255,.18);
+  --tx:#F6F2EF;
+  --tx-2:#C6BBB4;
+  --tx-3:#8B7F78;
+  --shadow:0 1px 0 rgba(255,255,255,.04) inset, 0 24px 60px -30px rgba(0,0,0,.9);
+  --glass:rgba(34,26,23,.55);
+  --glass-line:rgba(255,255,255,.12);
+  --grid-line:rgba(255,255,255,.045);
+
+  --f-display:"Sora",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --fs-display:clamp(2.45rem,5.4vw,4.35rem);
+  --fs-h1:clamp(2.1rem,4.4vw,3.4rem);
+  --fs-h2:clamp(1.8rem,3.1vw,2.65rem);
+  --fs-h3:clamp(1.18rem,1.6vw,1.45rem);
+  --fs-h4:1.06rem;
+  --fs-lead:clamp(1.03rem,1.28vw,1.2rem);
+  --fs-body:.975rem;
+  --fs-sm:.875rem;
+  --fs-xs:.775rem;
+  --fs-mono:.72rem;
+
+  --r-xs:6px; --r-sm:10px; --r:16px; --r-lg:24px; --r-xl:32px; --r-pill:999px;
+  --sp-sec:clamp(4.25rem,8vw,7.5rem);
+  --gutter:clamp(1.15rem,4.5vw,3rem);
+  --maxw:1200px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+:root[data-theme="light"]{
+  --bg:#F5F1EE;
+  --bg-2:#FFFFFF;
+  --surface:rgba(26,18,16,.035);
+  --surface-solid:#FFFFFF;
+  --surface-2:rgba(26,18,16,.055);
+  --line:rgba(26,18,16,.12);
+  --line-strong:rgba(26,18,16,.22);
+  --tx:#1A1210;
+  --tx-2:#584B45;
+  --tx-3:#8A7C74;
+  --shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 22px 50px -32px rgba(60,30,15,.42);
+  --glass:rgba(255,255,255,.72);
+  --glass-line:rgba(26,18,16,.10);
+  --grid-line:rgba(26,18,16,.055);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--tx);
+  font-family:var(--f-body);font-size:var(--fs-body);line-height:1.62;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+  transition:background .4s var(--ease),color .4s var(--ease);
+}
+img,svg{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+::selection{background:rgba(234,88,12,.35)}
+
+/* ---------- type ---------- */
+h1,h2,h3,h4,h5{font-family:var(--f-display);font-weight:700;line-height:1.08;letter-spacing:-.022em;margin:0;text-wrap:balance}
+p{margin:0}
+.display{font-size:var(--fs-display);font-weight:800;letter-spacing:-.035em;line-height:1.02}
+.h1{font-size:var(--fs-h1);letter-spacing:-.03em}
+.h2{font-size:var(--fs-h2)}
+.h3{font-size:var(--fs-h3);line-height:1.22}
+.lead{font-size:var(--fs-lead);color:var(--tx-2);line-height:1.58;text-wrap:pretty}
+.muted{color:var(--tx-2)}
+.dim{color:var(--tx-3)}
+.grad-tx{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mono{font-family:var(--f-mono);font-size:var(--fs-mono);letter-spacing:.06em;text-transform:uppercase}
+.code{font-family:var(--f-mono);font-size:.82em;letter-spacing:.01em}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.55rem;font-family:var(--f-mono);
+  font-size:var(--fs-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--amber);
+}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--amber);opacity:.65}
+.eyebrow.no-rule::before{display:none}
+
+/* ---------- layout ---------- */
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
+main{display:block}
+.page{display:none}
+.page.is-active{display:block;animation:pagein .5s var(--ease-out) both}
+@keyframes pagein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+section{position:relative}
+.sec{padding-block:var(--sp-sec)}
+.sec-tight{padding-block:clamp(2.75rem,5vw,4.5rem)}
+.stack{display:flex;flex-direction:column;gap:1rem}
+.grid{display:grid;gap:clamp(1rem,1.8vw,1.5rem)}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.sec-head{max-width:760px;display:flex;flex-direction:column;gap:1rem;margin-bottom:clamp(2rem,3.6vw,3.25rem)}
+.sec-head.center{margin-inline:auto;text-align:center;align-items:center}
+.rule{height:1px;background:var(--line);border:0;margin:0}
+
+/* ---------- background texture ---------- */
+.grid-bg::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,#000 30%,transparent 78%);
+  -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,#000 30%,transparent 78%);
+}
+.glow{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0}
+.glow.ora{background:radial-gradient(circle,rgba(234,88,12,.42),transparent 68%)}
+.glow.red{background:radial-gradient(circle,rgba(220,38,38,.30),transparent 68%)}
+.glow.gold{background:radial-gradient(circle,rgba(251,191,36,.22),transparent 68%)}
+.sec > .wrap{position:relative;z-index:1}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.nav{
+  position:sticky;top:0;z-index:80;backdrop-filter:blur(16px) saturate(1.5);
+  background:color-mix(in srgb,var(--bg) 78%,transparent);
+  border-bottom:1px solid transparent;transition:border-color .3s,background .3s;
+}
+.nav.is-stuck{border-bottom-color:var(--line);background:color-mix(in srgb,var(--bg) 90%,transparent)}
+.nav-in{display:flex;align-items:center;gap:clamp(.75rem,2vw,2rem);height:66px}
+.brand{display:flex;align-items:center;gap:.6rem;font-family:var(--f-display);font-weight:700;font-size:1.06rem;letter-spacing:-.02em;flex:none}
+.brand svg{width:24px;height:24px;flex:none}
+.brand small{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.22em;color:var(--tx-3);font-weight:500;text-transform:uppercase;display:block;line-height:1;margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:.15rem;margin-left:auto}
+.nav-links a,.nav-links button.navlink{
+  padding:.5rem .72rem;border-radius:var(--r-pill);font-size:.875rem;font-weight:500;color:var(--tx-2);
+  display:inline-flex;align-items:center;gap:.35rem;transition:color .18s,background .18s;white-space:nowrap;
+}
+.nav-links a:hover,.nav-links button.navlink:hover,.nav-links a[aria-current="page"]{color:var(--tx);background:var(--surface-2)}
+.caret{width:9px;height:9px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .25s var(--ease);opacity:.7}
+.has-mega[aria-expanded="true"] .caret{transform:rotate(-135deg) translateY(-2px)}
+.nav-right{display:flex;align-items:center;gap:.5rem;flex:none;margin-left:.5rem}
+.icon-btn{
+  width:38px;height:38px;border-radius:var(--r-pill);display:grid;place-items:center;
+  border:1px solid var(--line);color:var(--tx-2);transition:border-color .2s,color .2s,transform .2s;
+}
+.icon-btn:hover{border-color:var(--line-strong);color:var(--tx);transform:translateY(-1px)}
+.icon-btn svg{width:17px;height:17px}
+:root[data-theme="dark"] .i-sun{display:block}:root[data-theme="dark"] .i-moon{display:none}
+:root[data-theme="light"] .i-sun{display:none}:root[data-theme="light"] .i-moon{display:block}
+.burger{display:none}
+
+/* mega menu */
+.mega-wrap{position:relative}
+.mega{
+  position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-6px);
+  width:min(720px,calc(100vw - 2rem));padding:.6rem;border-radius:var(--r-lg);
+  background:var(--glass);backdrop-filter:blur(22px) saturate(1.6);
+  border:1px solid var(--glass-line);box-shadow:var(--shadow);
+  opacity:0;visibility:hidden;pointer-events:none;transition:.26s var(--ease);z-index:90;
+}
+.mega.is-open{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.mega-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.35rem}
+.mega-item{display:grid;grid-template-columns:34px 1fr;gap:.75rem;padding:.7rem;border-radius:var(--r-sm);transition:background .18s}
+.mega-item:hover{background:var(--surface-2)}
+.mega-item .tag{
+  width:34px;height:34px;border-radius:9px;display:grid;place-items:center;
+  font-family:var(--f-mono);font-size:.62rem;font-weight:600;letter-spacing:.02em;
+  background:var(--grad);color:#fff;
+}
+.mega-item b{display:block;font-family:var(--f-display);font-size:.88rem;font-weight:600;letter-spacing:-.01em}
+.mega-item span{display:block;font-size:.78rem;color:var(--tx-3);line-height:1.42;margin-top:.12rem}
+.mega-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:.5rem;padding:.7rem .75rem 0;border-top:1px solid var(--line)}
+.mega-foot a{font-size:.8rem;color:var(--orange);font-weight:600}
+
+/* mobile drawer */
+.drawer{
+  position:fixed;inset:66px 0 0;z-index:79;background:var(--bg);padding:1.15rem var(--gutter) 3rem;
+  overflow-y:auto;transform:translateX(100%);visibility:hidden;transition:transform .34s var(--ease),visibility .34s;
+}
+.drawer.is-open{transform:none;visibility:visible}
+.drawer nav{display:flex;flex-direction:column}
+.drawer nav a,.drawer nav .dlabel{
+  padding:.85rem 0;border-bottom:1px solid var(--line);font-family:var(--f-display);
+  font-size:1.05rem;font-weight:600;letter-spacing:-.01em;display:flex;justify-content:space-between;align-items:center;
+}
+.drawer .dlabel{font-family:var(--f-mono);font-size:var(--fs-mono);letter-spacing:.16em;color:var(--tx-3);text-transform:uppercase;padding-bottom:.4rem;border:0;margin-top:1.4rem}
+.drawer nav a.sub{font-family:var(--f-body);font-size:.95rem;font-weight:500;padding-left:.25rem;color:var(--tx-2)}
+.drawer .btn{margin-top:1.5rem}
+
+/* ============================================================
+   BUTTONS / CHIPS / PILLS
+   ============================================================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.78rem 1.3rem;border-radius:var(--r-pill);font-weight:600;font-size:.9rem;
+  letter-spacing:-.005em;transition:transform .2s var(--ease),box-shadow .25s,background .2s,border-color .2s,color .2s;
+  white-space:nowrap;border:1px solid transparent;position:relative;overflow:hidden;
+}
+.btn svg{width:15px;height:15px;flex:none}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 26px -12px rgba(234,88,12,.85)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px -12px rgba(234,88,12,.95)}
+.btn-ghost{border-color:var(--line-strong);color:var(--tx)}
+.btn-ghost:hover{border-color:var(--tx-3);background:var(--surface-2);transform:translateY(-2px)}
+.btn-light{background:var(--tx);color:var(--bg)}
+.btn-light:hover{transform:translateY(-2px)}
+.btn-sm{padding:.55rem .95rem;font-size:.83rem}
+.btn-lg{padding:.95rem 1.6rem;font-size:.97rem}
+.btn-block{width:100%}
+.btn[aria-disabled="true"]{opacity:.5;pointer-events:none}
+.link-arrow{display:inline-flex;align-items:center;gap:.4rem;font-weight:600;font-size:.9rem;color:var(--orange);transition:gap .2s var(--ease)}
+.link-arrow:hover{gap:.68rem}
+.link-arrow svg{width:14px;height:14px}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{
+  display:inline-flex;align-items:center;gap:.45rem;padding:.4rem .78rem;border-radius:var(--r-pill);
+  border:1px solid var(--line);background:var(--surface);font-family:var(--f-mono);
+  font-size:var(--fs-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--tx-2);
+  transition:border-color .2s,color .2s,transform .2s,background .2s;
+}
+.chip:hover{border-color:var(--orange);color:var(--tx);transform:translateY(-2px)}
+.chip .dot{width:5px;height:5px;border-radius:50%;background:var(--orange);flex:none}
+.chip.on{background:var(--grad);border-color:transparent;color:#fff}
+.chip.on .dot{background:#fff}
+.pill{
+  display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .7rem .35rem .5rem;border-radius:var(--r-pill);
+  border:1px solid var(--line);background:var(--surface);font-size:var(--fs-xs);color:var(--tx-2);font-weight:500;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:.4rem;font-family:var(--f-mono);font-size:.62rem;
+  letter-spacing:.12em;text-transform:uppercase;padding:.28rem .55rem;border-radius:var(--r-xs);
+  background:var(--grad-soft);border:1px solid rgba(234,88,12,.28);color:var(--amber);font-weight:500;
+}
+.badge.neutral{background:var(--surface);border-color:var(--line);color:var(--tx-3)}
+.live{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tx-3)}
+.live i{width:6px;height:6px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 0 rgba(34,197,94,.6);animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}70%{box-shadow:0 0 0 7px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+
+/* ---------- cards ---------- */
+.card{
+  position:relative;border-radius:var(--r-lg);border:1px solid var(--line);
+  background:var(--surface);padding:clamp(1.1rem,1.7vw,1.5rem);
+  transition:border-color .28s var(--ease),transform .28s var(--ease),background .28s;
+  overflow:hidden;
+}
+.card:hover{border-color:var(--line-strong);transform:translateY(-3px)}
+.card.glass{background:var(--glass);backdrop-filter:blur(18px) saturate(1.5);border-color:var(--glass-line)}
+.card-pad-lg{padding:clamp(1.4rem,2.4vw,2.25rem)}
+.card .glowline{position:absolute;inset:0 0 auto;height:2px;background:var(--grad);opacity:0;transition:opacity .3s}
+.card:hover .glowline{opacity:1}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.foot{border-top:1px solid var(--line);margin-top:clamp(3rem,6vw,5rem);padding-block:clamp(2.5rem,4.5vw,4rem) 1.5rem;position:relative;overflow:hidden}
+.foot-grid{display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:clamp(1.5rem,3vw,3rem)}
+.foot h4{font-family:var(--f-mono);font-size:var(--fs-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--tx-3);font-weight:500;margin-bottom:.9rem}
+.foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem}
+.foot ul a{font-size:.875rem;color:var(--tx-2);transition:color .18s}
+.foot ul a:hover{color:var(--orange)}
+.foot-bot{display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;align-items:center;justify-content:space-between;margin-top:clamp(2rem,4vw,3rem);padding-top:1.25rem;border-top:1px solid var(--line);font-size:var(--fs-xs);color:var(--tx-3)}
+
+/* ---------- reveal: transform-only, so content is never hidden ---------- */
+.rv{opacity:1;transform:none}
+html.js .rv:not(.in){transform:translateY(18px)}
+.rv.in{transform:none;transition:transform .7s var(--ease-out)}
+.rv.d1.in{transition-delay:.07s}.rv.d2.in{transition-delay:.14s}.rv.d3.in{transition-delay:.21s}.rv.d4.in{transition-delay:.28s}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  .rv{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+
+/* ============================================================
+   HERO + THE TRAIL (signature)
+   ============================================================ */
+.hero{padding-top:clamp(2.75rem,6vw,5rem);padding-bottom:clamp(2.5rem,5vw,4rem);overflow:hidden}
+.hero-in{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:clamp(2rem,4vw,3.75rem);align-items:center}
+.hero h1{margin:1.15rem 0 0}
+.hero .lead{margin-top:1.15rem;max-width:56ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.9rem}
+.hero-chips{margin-top:1.6rem;align-items:center}
+.hero-note{font-size:var(--fs-xs);color:var(--tx-3);margin-top:.9rem;font-family:var(--f-mono);letter-spacing:.04em}
+.trail-stage{position:relative;aspect-ratio:1/1;max-width:560px;margin-inline:auto;width:100%}
+.trail-stage svg{width:100%;height:100%;overflow:visible}
+.trail-path{fill:none;stroke:url(#trailGrad);stroke-width:2;stroke-linecap:round;opacity:.55}
+.trail-dash{fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round;stroke-dasharray:5 260;animation:flow 5.5s linear infinite}
+.trail-dash.b{stroke:var(--orange);animation-duration:4.2s;animation-delay:-1.4s}
+.trail-dash.c{stroke:#fff;animation-duration:6.4s;animation-delay:-2.8s;opacity:.85}
+@keyframes flow{to{stroke-dashoffset:-530}}
+.node circle{transition:transform .35s var(--ease)}
+.node-ring{fill:none;stroke:currentColor;stroke-width:1;opacity:.35}
+.node-lab{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.13em;fill:var(--tx-3);text-transform:uppercase}
+.node-t{font-family:var(--f-mono);font-size:11px;font-weight:600;fill:var(--tx)}
+.fpm{position:absolute;border-radius:var(--r);border:1px solid var(--glass-line);background:var(--glass);
+  backdrop-filter:blur(20px) saturate(1.6);box-shadow:var(--shadow);padding:.6rem .78rem;min-width:132px;z-index:3}
+.fpm .k{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--tx-3);display:block}
+.fpm .v{font-family:var(--f-display);font-weight:700;font-size:1.24rem;letter-spacing:-.03em;line-height:1.15;display:block;margin-top:.15rem}
+.fpm .v em{font-style:normal;color:var(--gold)}
+.fpm .d{font-size:.64rem;color:#22C55E;font-family:var(--f-mono);letter-spacing:.06em}
+.fpm.a{top:2%;left:-2%;animation:float 7s ease-in-out infinite}
+.fpm.b{top:34%;right:-4%;animation:float 8.5s ease-in-out infinite reverse}
+.fpm.c{bottom:5%;left:8%;animation:float 9.5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
+.spark{width:100%;height:26px;display:block;margin-top:.3rem}
+.spark path{fill:none;stroke:var(--orange);stroke-width:1.5}
+
+/* metric strip */
+.strip{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--surface)}
+.strip > div{padding:clamp(1rem,1.8vw,1.5rem);border-right:1px solid var(--line)}
+.strip > div:last-child{border-right:0}
+.strip .n{font-family:var(--f-display);font-weight:700;font-size:clamp(1.5rem,2.4vw,2.05rem);letter-spacing:-.035em;line-height:1}
+.strip .n s{text-decoration:none;color:var(--gold)}
+.strip .l{font-size:var(--fs-xs);color:var(--tx-3);margin-top:.4rem;line-height:1.4}
+
+/* logo row */
+.logos{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.logos div{background:var(--bg);padding:1.15rem .75rem;display:grid;place-items:center;min-height:74px}
+.logos span{font-family:var(--f-display);font-weight:600;font-size:.86rem;letter-spacing:.02em;color:var(--tx-3);transition:color .25s,transform .25s;text-align:center}
+.logos div:hover span{color:var(--tx);transform:scale(1.04)}
+
+/* ============================================================
+   PRODUCT CARDS
+   ============================================================ */
+.pcard{display:flex;flex-direction:column;gap:1rem;min-height:100%}
+.pcard-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem}
+.pcard-tag{
+  width:44px;height:44px;border-radius:12px;background:var(--grad);color:#fff;display:grid;place-items:center;
+  font-family:var(--f-mono);font-weight:600;font-size:.72rem;letter-spacing:.02em;flex:none;
+  box-shadow:0 10px 22px -12px rgba(234,88,12,.9);
+}
+.pcard h3{margin-top:.15rem}
+.pcard ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.pcard li{position:relative;padding-left:1.1rem;font-size:var(--fs-sm);color:var(--tx-2);line-height:1.5}
+.pcard li::before{content:"";position:absolute;left:0;top:.52em;width:6px;height:6px;border-radius:50%;background:var(--orange);opacity:.85}
+.pcard-foot{margin-top:auto;padding-top:1rem;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+
+/* ============================================================
+   APP MOCKUPS (all CSS/SVG — real UI, not stock screenshots)
+   ============================================================ */
+.mock{
+  border-radius:var(--r);border:1px solid var(--glass-line);background:var(--glass);
+  backdrop-filter:blur(18px) saturate(1.5);box-shadow:var(--shadow);overflow:hidden;
+}
+.mock-bar{display:flex;align-items:center;gap:.5rem;padding:.55rem .75rem;border-bottom:1px solid var(--line);background:var(--surface)}
+.mock-bar .dots{display:flex;gap:.28rem}
+.mock-bar .dots i{width:7px;height:7px;border-radius:50%;background:var(--line-strong)}
+.mock-bar .url{
+  flex:1;font-family:var(--f-mono);font-size:.6rem;color:var(--tx-3);letter-spacing:.04em;
+  background:var(--surface-2);border-radius:var(--r-xs);padding:.22rem .5rem;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+}
+.mock-body{padding:.85rem;display:flex;flex-direction:column;gap:.6rem;font-size:.78rem}
+.mock-row{display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+.mock-h{font-family:var(--f-display);font-weight:600;font-size:.86rem;letter-spacing:-.01em}
+.tbl{width:100%;border-collapse:collapse;font-size:.72rem}
+.tbl th{
+  text-align:left;font-family:var(--f-mono);font-size:.56rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--tx-3);font-weight:500;padding:.4rem .45rem;border-bottom:1px solid var(--line);
+}
+.tbl td{padding:.45rem;border-bottom:1px solid var(--line);color:var(--tx-2);white-space:nowrap}
+.tbl tr:last-child td{border-bottom:0}
+.tbl .sk{color:var(--tx);font-family:var(--f-mono);font-size:.68rem}
+.bin{
+  font-family:var(--f-mono);font-size:.6rem;padding:.12rem .34rem;border-radius:var(--r-xs);
+  background:var(--surface-2);border:1px solid var(--line);color:var(--tx-2);letter-spacing:.04em;
+}
+.st{display:inline-flex;align-items:center;gap:.3rem;font-family:var(--f-mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;padding:.14rem .42rem;border-radius:var(--r-pill);border:1px solid var(--line);color:var(--tx-3)}
+.st.ok{color:#34D399;border-color:rgba(52,211,153,.35);background:rgba(52,211,153,.08)}
+.st.warn{color:var(--amber);border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.08)}
+.st.late{color:#F87171;border-color:rgba(248,113,113,.35);background:rgba(248,113,113,.08)}
+.st.info{color:#60A5FA;border-color:rgba(96,165,250,.35);background:rgba(96,165,250,.08)}
+.prog{height:4px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--grad);border-radius:99px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.kpi{border:1px solid var(--line);border-radius:var(--r-sm);padding:.5rem .6rem;background:var(--surface)}
+.kpi b{font-family:var(--f-display);font-size:1rem;font-weight:700;letter-spacing:-.02em;display:block;line-height:1.2}
+.kpi span{font-family:var(--f-mono);font-size:.55rem;letter-spacing:.11em;text-transform:uppercase;color:var(--tx-3);display:block;margin-top:.15rem}
+.kpi.gold b{color:var(--gold)}
+/* phone frame */
+.phone{
+  width:min(272px,80%);margin-inline:auto;border-radius:30px;border:1px solid var(--line-strong);
+  background:var(--surface-solid);padding:.5rem;box-shadow:var(--shadow);position:relative;
+}
+.phone::before{content:"";position:absolute;top:.72rem;left:50%;transform:translateX(-50%);width:58px;height:5px;border-radius:99px;background:var(--line-strong)}
+.phone-screen{border-radius:24px;background:var(--bg);border:1px solid var(--line);padding:1.5rem .7rem .7rem;display:flex;flex-direction:column;gap:.55rem;min-height:340px}
+.stop{display:grid;grid-template-columns:24px 1fr auto;gap:.55rem;align-items:center;padding:.5rem .55rem;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--surface);position:relative}
+.stop .idx{width:22px;height:22px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font-family:var(--f-mono);font-size:.6rem;font-weight:600}
+.stop.done .idx{background:var(--surface-2);color:var(--tx-3);border:1px solid var(--line)}
+.stop small{display:block;font-family:var(--f-mono);font-size:.55rem;letter-spacing:.08em;color:var(--tx-3);margin-top:.12rem}
+.stop b{font-size:.72rem;font-weight:600;font-family:var(--f-body);letter-spacing:0}
+.stops-line{position:absolute;left:16.5px;top:34px;bottom:9px;width:1.5px;background:linear-gradient(var(--orange),var(--red));opacity:.4}
+/* tabbed preview */
+.tabs{display:flex;gap:.3rem;padding:.3rem;border:1px solid var(--line);border-radius:var(--r-pill);background:var(--surface);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  padding:.5rem 1rem;border-radius:var(--r-pill);font-size:.82rem;font-weight:600;color:var(--tx-3);
+  white-space:nowrap;transition:color .22s,background .22s;display:inline-flex;gap:.42rem;align-items:center;
+}
+.tab .tag-o{font-family:var(--f-mono);font-size:.58rem;opacity:.85;letter-spacing:.06em}
+.tab[aria-selected="true"]{color:#fff;background:var(--grad);box-shadow:0 8px 18px -10px rgba(234,88,12,.9)}
+.tabpanel{display:none}
+.tabpanel.is-active{display:block;animation:pagein .34s var(--ease-out) both}
+.preview-frame{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:clamp(1.25rem,3vw,2.75rem);align-items:center;
+  border:1px solid var(--line);border-radius:var(--r-xl);background:var(--surface);padding:clamp(1.1rem,2.4vw,2rem);position:relative;overflow:hidden}
+.preview-frame::after{content:"";position:absolute;inset:auto -20% -60% 30%;height:340px;background:radial-gradient(ellipse at center,rgba(234,88,12,.16),transparent 70%);pointer-events:none}
+
+/* ============================================================
+   COLONY MAP / TIMELINE / PROCESS
+   ============================================================ */
+.colony{position:relative;padding:clamp(1rem,3vw,2.25rem) 0}
+.colony svg{width:100%;height:auto;overflow:visible}
+.chains{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.75rem}
+.chains .c{padding:1rem;border-radius:var(--r);border:1px solid var(--line);background:var(--surface)}
+.chains .c b{font-family:var(--f-display);font-size:.9rem;display:block}
+.chains .c span{font-size:.8rem;color:var(--tx-3);line-height:1.45}
+
+.tl{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(154px,1fr);gap:0;overflow-x:auto;padding-bottom:.5rem}
+.tl-step{position:relative;padding:2.6rem 1rem 0 0}
+.tl-step::before{content:"";position:absolute;top:11px;left:0;right:0;height:2px;background:var(--line)}
+.tl-step:first-child::before{left:14px}
+.tl-step:last-child::before{right:calc(100% - 15px)}
+.tl-step i{
+  position:absolute;top:3px;left:0;width:18px;height:18px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--orange);z-index:1;
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--bg) 90%,transparent);
+}
+.tl-step.done i{background:var(--grad);border-color:transparent}
+.tl-step em{display:block;font-family:var(--f-mono);font-size:.58rem;letter-spacing:.14em;color:var(--tx-3);text-transform:uppercase;font-style:normal}
+.tl-step b{display:block;font-family:var(--f-display);font-size:.92rem;margin-top:.2rem;letter-spacing:-.01em}
+.tl-step p{font-size:.78rem;color:var(--tx-3);margin-top:.35rem;line-height:1.45;padding-right:1rem}
+.tl-step .tcode{font-family:var(--f-mono);font-size:.62rem;color:var(--gold);letter-spacing:.06em;display:block;margin-top:.4rem}
+
+/* steps (numbered = real sequence) */
+.steps{counter-reset:s;display:flex;flex-direction:column;gap:1.35rem}
+.step{counter-increment:s;position:relative;padding-left:3rem}
+.step::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:-.15rem;
+  font-family:var(--f-mono);font-size:.78rem;font-weight:600;color:var(--orange);
+  width:30px;height:30px;border-radius:9px;border:1px solid var(--line);display:grid;place-items:center;background:var(--surface);
+}
+.step h4{margin-bottom:.3rem}
+.step p{font-size:var(--fs-sm);color:var(--tx-2)}
+
+/* accordion */
+.acc{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--surface)}
+.acc details{border-bottom:1px solid var(--line)}
+.acc details:last-child{border-bottom:0}
+.acc summary{
+  list-style:none;cursor:pointer;padding:1.1rem clamp(1rem,2vw,1.4rem);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  font-family:var(--f-display);font-weight:600;font-size:1rem;letter-spacing:-.012em;
+}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"";width:9px;height:9px;border-right:1.6px solid var(--orange);border-bottom:1.6px solid var(--orange);transform:rotate(45deg);transition:transform .25s var(--ease);flex:none;margin-top:-4px}
+.acc details[open] summary::after{transform:rotate(-135deg);margin-top:4px}
+.acc .acc-body{padding:0 clamp(1rem,2vw,1.4rem) 1.3rem;font-size:var(--fs-sm);color:var(--tx-2);max-width:72ch}
+.acc .acc-body ul{margin:.6rem 0 0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.4rem}
+
+/* forms */
+.form{display:grid;gap:1rem}
+.field{display:flex;flex-direction:column;gap:.42rem}
+.field label{font-size:var(--fs-sm);font-weight:600}
+.field .hint{font-size:var(--fs-xs);color:var(--tx-3)}
+.inp,select.inp,textarea.inp{
+  width:100%;padding:.78rem .9rem;border-radius:var(--r-sm);border:1px solid var(--line);
+  background:var(--surface);color:var(--tx);font:inherit;font-size:.9rem;transition:border-color .2s,background .2s;
+}
+.inp::placeholder{color:var(--tx-3)}
+.inp:focus{outline:none;border-color:var(--orange);background:var(--surface-2);box-shadow:0 0 0 3px rgba(234,88,12,.15)}
+select.inp{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--tx-3) 50%),linear-gradient(135deg,var(--tx-3) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+textarea.inp{min-height:118px;resize:vertical}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.check{display:flex;align-items:flex-start;gap:.6rem;font-size:var(--fs-sm);color:var(--tx-2)}
+.check input{margin:.25rem 0 0;accent-color:var(--orange);width:16px;height:16px;flex:none}
+.form-ok{
+  display:none;gap:.6rem;align-items:flex-start;padding:1rem 1.1rem;border-radius:var(--r);
+  border:1px solid rgba(34,197,94,.35);background:rgba(34,197,94,.09);font-size:var(--fs-sm);
+}
+.form-ok.show{display:flex}
+
+/* insights */
+.filters{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.search{position:relative;flex:1;min-width:min(100%,260px)}
+.search svg{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--tx-3)}
+.search .inp{padding-left:2.3rem}
+.art{display:flex;flex-direction:column;gap:.75rem}
+.art .meta{display:flex;align-items:center;gap:.6rem;font-family:var(--f-mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tx-3)}
+.art h3{font-size:1.03rem;line-height:1.3}
+.art p{font-size:var(--fs-sm);color:var(--tx-2);flex:1}
+.art:hover h3{color:var(--orange)}
+.empty{padding:2.5rem 1rem;text-align:center;color:var(--tx-3);border:1px dashed var(--line);border-radius:var(--r);grid-column:1/-1}
+
+/* case studies */
+.case-num{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;color:var(--tx-3);text-transform:uppercase}
+.ba{display:grid;grid-template-columns:1fr auto 1fr;gap:.7rem;align-items:center;margin-top:.35rem}
+.ba .side{border:1px solid var(--line);border-radius:var(--r-sm);padding:.6rem .7rem;background:var(--surface)}
+.ba .side b{font-family:var(--f-mono);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;display:block;color:var(--tx-3)}
+.ba .side span{font-size:.8rem;display:block;margin-top:.25rem;line-height:1.4}
+.ba .arrow{color:var(--orange);font-weight:700}
+.tick{display:flex;flex-direction:column;gap:.5rem;list-style:none;margin:0;padding:0}
+.tick li{display:flex;gap:.6rem;align-items:flex-start;font-size:var(--fs-sm);color:var(--tx-2)}
+.tick svg{width:15px;height:15px;flex:none;margin-top:.25rem;color:var(--gold)}
+
+/* about */
+.stat-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.milestone{border-left:2px solid var(--line);padding:0 0 1.6rem 1.4rem;position:relative}
+.milestone::before{content:"";position:absolute;left:-6px;top:.42rem;width:10px;height:10px;border-radius:50%;background:var(--grad)}
+.milestone:last-child{padding-bottom:0}
+.milestone b{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;color:var(--gold)}
+.milestone h4{margin:.25rem 0 .3rem}
+.milestone p{font-size:var(--fs-sm);color:var(--tx-2)}
+.team-card{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start}
+.avatar{width:46px;height:46px;border-radius:14px;background:var(--grad);display:grid;place-items:center;font-family:var(--f-display);font-weight:700;color:#fff;font-size:.9rem}
+.stack-list{display:flex;flex-wrap:wrap;gap:.45rem}
+.stack-list span{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;padding:.3rem .6rem;border-radius:var(--r-xs);border:1px solid var(--line);color:var(--tx-2);background:var(--surface)}
+
+/* CTA band */
+.band{
+  position:relative;border-radius:var(--r-xl);overflow:hidden;padding:clamp(1.85rem,4vw,3.5rem);
+  background:var(--grad);color:#fff;
+}
+.band::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 15% 20%,rgba(255,255,255,.22),transparent 45%),radial-gradient(circle at 85% 90%,rgba(0,0,0,.25),transparent 50%)}
+.band-in{position:relative;display:grid;grid-template-columns:minmax(0,1.3fr) auto;gap:1.75rem;align-items:center}
+.band h2{color:#fff}
+.band p{color:rgba(255,255,255,.9);margin-top:.7rem;max-width:58ch;font-size:var(--fs-lead)}
+.band .btn-light{background:#fff;color:var(--ink)}
+.band .btn-ghost{border-color:rgba(255,255,255,.5);color:#fff}
+.band .btn-ghost:hover{background:rgba(255,255,255,.12);border-color:#fff}
+.band-cta{display:flex;flex-wrap:wrap;gap:.7rem}
+
+/* page header */
+.phead{padding-top:clamp(2.5rem,5vw,4.25rem);padding-bottom:clamp(1.75rem,3vw,2.5rem);overflow:hidden}
+.crumbs{display:flex;gap:.5rem;align-items:center;font-family:var(--f-mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--tx-3)}
+.crumbs a:hover{color:var(--orange)}
+.crumbs span{opacity:.5}
+.phead h1{margin:1rem 0 0;max-width:20ch}
+.phead .lead{margin-top:1.15rem;max-width:64ch}
+.phead-side{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:2rem;align-items:end}
+
+/* sticky sub-nav */
+.subnav{position:sticky;top:66px;z-index:40;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-block:1px solid var(--line);margin-bottom:clamp(1.75rem,3vw,2.75rem)}
+.subnav-in{display:flex;gap:.25rem;overflow-x:auto;scrollbar-width:none;padding-block:.5rem}
+.subnav-in::-webkit-scrollbar{display:none}
+.subnav a{padding:.45rem .8rem;border-radius:var(--r-pill);font-size:.82rem;font-weight:500;color:var(--tx-3);white-space:nowrap}
+.subnav a:hover{color:var(--tx);background:var(--surface-2)}
+
+/* responsive */
+@media (max-width:1080px){
+  .hero-in{grid-template-columns:1fr;gap:2.5rem}
+  .trail-stage{max-width:520px;aspect-ratio:auto;height:auto;min-height:420px}
+  .preview-frame{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .chains{grid-template-columns:repeat(2,1fr)}
+  .nav-links{display:none}
+  .burger{display:grid}
+  .drawer{display:block}
+  .phead-side{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  .g3,.g2{grid-template-columns:1fr}
+  .stat-cards{grid-template-columns:repeat(2,1fr)}
+  .band-in{grid-template-columns:1fr}
+  .strip{grid-template-columns:repeat(2,1fr)}
+  .strip > div:nth-child(2){border-right:0}
+  .strip > div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .logos{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:620px){
+  .g4{grid-template-columns:1fr}
+  .f2{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .stat-cards{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .fpm{position:static;animation:none;margin-top:.6rem}
+  .trail-stage{min-height:0}
+  .hero-floats{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+  .mock-body{font-size:.72rem}
+  .tbl .hide-sm{display:none}
+}
+</style>
+</head>
+<body>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
+
+<!-- ==================== NAV ==================== -->
+<a class="skip" href="#main" style="position:absolute;left:-9999px;top:0;z-index:200;background:var(--grad);color:#fff;padding:.7rem 1.1rem;border-radius:0 0 8px 0">Skip to content</a>
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#/" aria-label="Semutz home">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <defs><linearGradient id="bm" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#EA580C"/><stop offset="1" stop-color="#DC2626"/></linearGradient></defs>
+        <path d="M6 25C6 15 12 9 26 8" stroke="url(#bm)" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="6" cy="25" r="3.4" fill="url(#bm)"/>
+        <circle cx="16" cy="15.6" r="2.5" fill="#FBBF24"/>
+        <circle cx="26" cy="8" r="4.2" stroke="url(#bm)" stroke-width="2.2"/>
+      </svg>
+      <span>Semutz<small>FMCG OS</small></span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <div class="mega-wrap">
+        <button class="navlink has-mega" id="megaBtn" aria-expanded="false" aria-haspopup="true" aria-controls="mega">Products <i class="caret" aria-hidden="true"></i></button>
+        <div class="mega" id="mega">
+          <div class="mega-grid">
+            <a class="mega-item" href="#/products/sfa"><span class="tag">SFA</span><span><b>Sales Force Automation</b><span>Route plans, van sales, retailer ordering, collections.</span></span></a>
+            <a class="mega-item" href="#/products/wms"><span class="tag">WMS</span><span><b>Warehouse Management</b><span>Goods-in to goods-out, batch to bin, FEFO.</span></span></a>
+            <a class="mega-item" href="#/products/tms"><span class="tag">TMS</span><span><b>Transport Management</b><span>Plan, dispatch and track every delivery stop.</span></span></a>
+            <a class="mega-item" href="#/products/erp"><span class="tag">ERP</span><span><b>Enterprise Resource Planning</b><span>Order-to-invoice, finance, master data.</span></span></a>
+          </div>
+          <div class="mega-foot">
+            <span class="mono dim">One shared master data layer</span>
+            <a href="#/products">See all products &rarr;</a>
+          </div>
+        </div>
+      </div>
+      <a href="#/platform">Platform</a>
+      <a href="#/industries">Industries</a>
+      <a href="#/case-studies">Case Studies</a>
+      <a href="#/insights">Insights</a>
+      <a href="#/about">About</a>
+      <a href="#/contact">Contact</a>
+    </nav>
+
+    <div class="nav-right">
+      <button class="icon-btn" id="themeBtn" aria-label="Switch colour theme" title="Switch colour theme">
+        <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7" stroke-linecap="round"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 14.2A8.4 8.4 0 1 1 9.8 4a6.9 6.9 0 0 0 10.2 10.2Z" stroke-linejoin="round"/></svg>
+      </button>
+      <a class="btn btn-primary btn-sm" href="#/contact">Book a Demo</a>
+      <button class="icon-btn burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" aria-label="Mobile menu">
+  <nav>
+    <span class="dlabel">Products</span>
+    <a class="sub" href="#/products/sfa">SFA — Sales Force Automation</a>
+    <a class="sub" href="#/products/wms">WMS — Warehouse Management</a>
+    <a class="sub" href="#/products/tms">TMS — Transport Management</a>
+    <a class="sub" href="#/products/erp">ERP — Enterprise Resource Planning</a>
+    <a href="#/products">All products</a>
+    <span class="dlabel">Company</span>
+    <a href="#/platform">Platform</a>
+    <a href="#/industries">Industries</a>
+    <a href="#/case-studies">Case Studies</a>
+    <a href="#/insights">Insights</a>
+    <a href="#/about">About</a>
+    <a href="#/contact">Contact</a>
+  </nav>
+  <a class="btn btn-primary btn-block btn-lg" href="#/contact">Book a Demo</a>
+</div>
+
+<main id="main">
+
+<!-- ==================== 1. HOMEPAGE ==================== -->
+<div class="page is-active" id="page-home">
+
+  <section class="hero grid-bg">
+    <span class="glow ora" style="width:520px;height:520px;top:-180px;left:-120px"></span>
+    <span class="glow red" style="width:420px;height:420px;bottom:-200px;right:-80px"></span>
+    <div class="wrap hero-in">
+      <div>
+        <span class="eyebrow">FMCG distribution software</span>
+        <h1 class="display">From <span class="grad-tx">Sales Rep</span> to <span class="grad-tx">Retail Shelf</span> — One Connected System</h1>
+        <p class="lead">Like a colony where every ant plays its part — from foraging to the nest — Semutz connects sales, warehousing and distribution into one seamless trail, moving FMCG goods efficiently from supplier to retail shelf.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-lg" href="#/contact">Book a Demo
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn-ghost btn-lg" href="#/products">Explore Products</a>
+        </div>
+        <div class="chips hero-chips" role="list" aria-label="Product modules">
+          <span class="chip" role="listitem"><i class="dot"></i>SFA</span>
+          <span class="chip" role="listitem"><i class="dot"></i>WMS</span>
+          <span class="chip" role="listitem"><i class="dot"></i>TMS</span>
+          <span class="chip" role="listitem"><i class="dot"></i>ERP</span>
+        </div>
+        <p class="hero-note">Four products · one master data trail · deployed on your warehouse floor in weeks, not quarters</p>
+      </div>
+
+      <div class="trail-stage" aria-hidden="true">
+        <svg viewBox="0 0 560 560" role="presentation">
+          <defs>
+            <linearGradient id="trailGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#EA580C"/><stop offset=".55" stop-color="#DC2626"/><stop offset="1" stop-color="#FBBF24"/>
+            </linearGradient>
+            <radialGradient id="nodeG"><stop offset="0" stop-color="#FBBF24"/><stop offset="1" stop-color="#EA580C"/></radialGradient>
+          </defs>
+          <!-- backbone (ERP) -->
+          <path class="trail-path" d="M72 154 C 20 250, 40 370, 120 500" stroke-dasharray="3 9"/>
+          <!-- main trail -->
+          <path id="trailA" class="trail-path" d="M72 154 C 150 150, 212 130, 268 168 C 322 218, 236 268, 214 330 C 190 398, 320 424, 452 468"/>
+          <path id="trailB" class="trail-path" d="M268 168 C 340 200, 420 214, 470 268" stroke-dasharray="2 8" opacity=".35"/>
+          <use href="#trailA" class="trail-dash"/>
+          <use href="#trailA" class="trail-dash b"/>
+          <use href="#trailA" class="trail-dash c"/>
+          <!-- travelling packets -->
+          <circle r="4" fill="#FBBF24"><animateMotion dur="6.2s" repeatCount="indefinite" rotate="auto"><mpath href="#trailA"/></animateMotion></circle>
+          <circle r="3.2" fill="#EA580C"><animateMotion dur="6.2s" begin="-2.1s" repeatCount="indefinite"><mpath href="#trailA"/></animateMotion></circle>
+          <circle r="3.2" fill="#DC2626"><animateMotion dur="6.2s" begin="-4.2s" repeatCount="indefinite"><mpath href="#trailA"/></animateMotion></circle>
+          <!-- nodes -->
+          <g class="node" style="color:#EA580C">
+            <circle class="node-ring" cx="72" cy="154" r="17"/>
+            <circle cx="72" cy="154" r="8" fill="url(#nodeG)"/>
+            <text class="node-t" x="72" y="124" text-anchor="middle">SUPPLIER</text>
+            <text class="node-lab" x="72" y="188" text-anchor="middle">GOODS-IN</text>
+          </g>
+          <g class="node" style="color:#F59E0B">
+            <circle class="node-ring" cx="268" cy="168" r="19"/>
+            <rect x="258" y="158" width="20" height="20" rx="4" fill="none" stroke="#F59E0B" stroke-width="2"/>
+            <path d="M258 166h20M268 158v20" stroke="#F59E0B" stroke-width="1.4"/>
+            <text class="node-t" x="268" y="132" text-anchor="middle">WAREHOUSE</text>
+            <text class="node-lab" x="268" y="206" text-anchor="middle">PICK · PACK</text>
+          </g>
+          <g class="node" style="color:#DC2626">
+            <circle class="node-ring" cx="214" cy="330" r="19"/>
+            <path d="M204 336h20l3-9h-26zM207 342h3M222 342h3" fill="none" stroke="#DC2626" stroke-width="1.8" stroke-linejoin="round"/>
+            <text class="node-t" x="214" y="298" text-anchor="middle">TRUCK</text>
+            <text class="node-lab" x="214" y="368" text-anchor="middle">DISPATCH</text>
+          </g>
+          <g class="node" style="color:#FBBF24">
+            <circle class="node-ring" cx="452" cy="468" r="19"/>
+            <path d="M442 476v-13h20v13M442 469h20M446 463h4M456 463h4" fill="none" stroke="#FBBF24" stroke-width="1.7" stroke-linejoin="round"/>
+            <text class="node-t" x="452" y="436" text-anchor="middle">SHELF</text>
+            <text class="node-lab" x="452" y="506" text-anchor="middle">RETAIL</text>
+          </g>
+          <g class="node" style="color:#8B7F78">
+            <circle class="node-ring" cx="470" cy="268" r="14"/>
+            <circle cx="470" cy="268" r="5" fill="none" stroke="#8B7F78" stroke-width="1.6"/>
+            <text class="node-lab" x="470" y="242" text-anchor="middle">BACK OFFICE</text>
+          </g>
+        </svg>
+        <div class="hero-floats">
+          <div class="fpm a"><span class="k">Cartons picked today</span><span class="v" data-count="18420">18,420</span><span class="d">▲ live from WMS pick-face</span></div>
+          <div class="fpm b"><span class="k">Deliveries in transit</span><span class="v" data-count="236">236</span><span class="d">TMS driver app pings</span></div>
+          <div class="fpm c"><span class="k">Lines received clean</span><span class="v"><em data-count="99.2" data-dec="1">99.2</em>%</span><span class="d">GRN vs PO match</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap">
+      <div class="strip rv">
+        <div><div class="n"><s data-count="42">42</s>+</div><div class="l">Warehouses running live on Semutz WMS</div></div>
+        <div><div class="n"><s data-count="1.8" data-dec="1">1.8</s>M</div><div class="l">Order lines processed through the platform</div></div>
+        <div><div class="n"><s data-count="64">64</s>k</div><div class="l">Delivery stops tracked every month</div></div>
+        <div><div class="n"><s data-count="9">9</s></div><div class="l">Years shipping supply-chain software</div></div>
+      </div>
+      <p class="hero-note rv" style="margin-top:.85rem">Illustrative platform telemetry. Replace with your verified operational figures before publishing.</p>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap">
+      <p class="eyebrow rv" style="margin-bottom:1.1rem">Operating in the field with</p>
+      <div class="logos rv d1" aria-label="Brands using Semutz (placeholders)">
+        <div><span>Northfield Foods</span></div>
+        <div><span>Kirana Retail Group</span></div>
+        <div><span>Delta Distribution</span></div>
+        <div><span>Sumber Jaya FMCG</span></div>
+        <div><span>PantryLink 3PL</span></div>
+        <div><span>Harvest & Co.</span></div>
+      </div>
+      <p class="hero-note rv d2" style="margin-top:.85rem">Placeholder partner marks — swap in the real customer logos you have written permission to display.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- PRODUCTS -->
+  <section class="sec" id="products">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Four products. One trail.</span>
+        <h2 class="h2">Each ant has a job. Together they move the whole shipment.</h2>
+        <p class="lead">Semutz doesn't sell workshops or advisory decks. We build the software your teams open at 6am — the pick list, the driver app, the order screen, the invoice run — and we run it with you.</p>
+      </div>
+      <div class="grid g4">
+        <a class="card pcard rv" href="#/products/sfa"><span class="glowline"></span>
+          <div class="pcard-top"><span class="pcard-tag">SFA</span><span class="badge neutral">Field</span></div>
+          <h3 class="h3">Sales Force Automation</h3>
+          <p class="muted" style="font-size:var(--fs-sm)">Empowering field sales and retail partners.</p>
+          <ul>
+            <li>Route planning &amp; journey cycles</li>
+            <li>Retailer self-service ordering</li>
+            <li>Van sales, collections, stock-take</li>
+            <li>Promotions &amp; trade spend tracking</li>
+          </ul>
+          <div class="pcard-foot"><span class="mono dim">Product 01</span><span class="link-arrow">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        </a>
+        <a class="card pcard rv d1" href="#/products/wms"><span class="glowline"></span>
+          <div class="pcard-top"><span class="pcard-tag">WMS</span><span class="badge neutral">Warehouse</span></div>
+          <h3 class="h3">Warehouse Management</h3>
+          <p class="muted" style="font-size:var(--fs-sm)">Full lifecycle stock control — goods-in to goods-out, batch to bin.</p>
+          <ul>
+            <li>GRN receiving &amp; putaway zones</li>
+            <li>FIFO / LIFO / FEFO strategies</li>
+            <li>PO → DO pick, pack, ship</li>
+            <li>Rack locations &amp; pallet labels</li>
+          </ul>
+          <div class="pcard-foot"><span class="mono dim">Product 02</span><span class="link-arrow">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        </a>
+        <a class="card pcard rv d2" href="#/products/tms"><span class="glowline"></span>
+          <div class="pcard-top"><span class="pcard-tag">TMS</span><span class="badge neutral">Transport</span></div>
+          <h3 class="h3">Transport Management</h3>
+          <p class="muted" style="font-size:var(--fs-sm)">Plan, dispatch and track every delivery — back office to truck door.</p>
+          <ul>
+            <li>Dispatch board &amp; load planning</li>
+            <li>Driver app: journey, stops, POD</li>
+            <li>Vehicle &amp; pallet capacity checks</li>
+            <li>Real-time delivery status</li>
+          </ul>
+          <div class="pcard-foot"><span class="mono dim">Product 03</span><span class="link-arrow">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        </a>
+        <a class="card pcard rv d3" href="#/products/erp"><span class="glowline"></span>
+          <div class="pcard-top"><span class="pcard-tag">ERP</span><span class="badge neutral">Finance</span></div>
+          <h3 class="h3">Enterprise Resource Planning</h3>
+          <p class="muted" style="font-size:var(--fs-sm)">The system of record tying operations and finance together.</p>
+          <ul>
+            <li>Order-to-invoice processing</li>
+            <li>Automated invoicing rules</li>
+            <li>Accounting &amp; finance integration</li>
+            <li>Cross-module reporting &amp; audit</li>
+          </ul>
+          <div class="pcard-foot"><span class="mono dim">Product 04</span><span class="link-arrow">Explore <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD PREVIEW -->
+  <section class="sec sec-tight" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">See it, don't read about it</span>
+        <h2 class="h2">The screens your team actually works from</h2>
+        <p class="lead">Switch tabs to walk the same order through all four products. Same SKU, same customer, same document numbers — because it's one database, not four integrations.</p>
+      </div>
+
+      <div class="tabs rv" role="tablist" aria-label="Product preview">
+        <button class="tab" role="tab" id="tab-sfa" aria-controls="panel-sfa" aria-selected="true">SFA <span class="tag-o">01</span></button>
+        <button class="tab" role="tab" id="tab-wms" aria-controls="panel-wms" aria-selected="false">WMS <span class="tag-o">02</span></button>
+        <button class="tab" role="tab" id="tab-tms" aria-controls="panel-tms" aria-selected="false">TMS <span class="tag-o">03</span></button>
+        <button class="tab" role="tab" id="tab-erp" aria-controls="panel-erp" aria-selected="false">ERP <span class="tag-o">04</span></button>
+      </div>
+
+      <div style="margin-top:1.25rem">
+        <div class="tabpanel is-active" id="panel-sfa" role="tabpanel" aria-labelledby="tab-sfa" tabindex="0">
+          <div class="preview-frame">
+            <div class="stack">
+              <span class="badge">SFA · Mobile order capture</span>
+              <h3 class="h3">Rep walks in, order is in the system before the rep walks out.</h3>
+              <p class="muted" style="font-size:var(--fs-sm)">Trip plan, customer history, last 3 order lines and live van stock on one screen. Confirmed orders drop straight into WMS as a sales order — no re-keying, no WhatsApp photo of a paper book.</p>
+              <ul class="tick">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Suggested order from 8-week sell-out history</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Van stock deducted at confirmation</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Cash &amp; cheque collection logged against the outlet</li>
+              </ul>
+              <a class="link-arrow" href="#/products/sfa">Explore SFA <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+            <div class="mock">
+              <div class="mock-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">sfa.semutz.app / route / RT-0412 / order</span></div>
+              <div class="mock-body">
+                <div class="mock-row">
+                  <span class="mock-h">Ali Supermart · <span class="code">CUST-10428</span></span>
+                  <span class="st ok">On route</span>
+                </div>
+                <div class="kpis">
+                  <div class="kpi gold"><b>RM 4,180</b><span>MTD sales</span></div>
+                  <div class="kpi"><b>8</b><span>Wks history</span></div>
+                  <div class="kpi"><b>183</b><span>Cartons in van</span></div>
+                </div>
+                <table class="tbl">
+                  <thead><tr><th>SKU</th><th>Item</th><th>Suggested</th><th style="text-align:right">Ordered</th></tr></thead>
+                  <tbody>
+                    <tr><td class="sk">SKU-100238</td><td>Chilli Sauce 340g <span class="bin">CTN×24</span></td><td>12</td><td style="text-align:right"><b>12</b></td></tr>
+                    <tr><td class="sk">SKU-100411</td><td>Soy Sauce 620ml <span class="bin">CTN×12</span></td><td>8</td><td style="text-align:right"><b>10</b></td></tr>
+                    <tr><td class="sk">SKU-100755</td><td>Sambal Paste 200g <span class="bin">CTN×24</span></td><td>6</td><td style="text-align:right"><b>6</b></td></tr>
+                    <tr><td class="sk">SKU-100902</td><td>Sweet Soy 1kg <span class="bin">CTN×12</span></td><td>4</td><td style="text-align:right"><b>0</b></td></tr>
+                  </tbody>
+                </table>
+                <div class="mock-row" style="border-top:1px solid var(--line);padding-top:.6rem">
+                  <span class="mono dim">Total 28 ctn · promo P-0919 applied</span>
+                  <span class="badge">Confirm order</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabpanel" id="panel-wms" role="tabpanel" aria-labelledby="tab-wms" tabindex="0">
+          <div class="preview-frame">
+            <div class="stack">
+              <span class="badge">WMS · Pick face</span>
+              <h3 class="h3">FEFO decides the bin. The picker just follows the screen.</h3>
+              <p class="muted" style="font-size:var(--fs-sm)">Pick lists are sequenced by rack walk, not by document order. Batch and expiry are enforced at the scan, so near-dated stock leaves first and short-ships get caught on the floor instead of at the customer.</p>
+              <ul class="tick">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Scan-verified pick, short-pick capture</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Batch &amp; expiry traced bin to carton</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Cycle-count sessions without stopping the shift</li>
+              </ul>
+              <a class="link-arrow" href="#/products/wms">Explore WMS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+            <div class="mock">
+              <div class="mock-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">wms.semutz.app / picking / DO-88214</span></div>
+              <div class="mock-body">
+                <div class="mock-row">
+                  <span class="mock-h">Delivery Order <span class="code">DO-88214</span></span>
+                  <span class="st info">Picking 9/14</span>
+                </div>
+                <div class="prog"><i style="width:64%"></i></div>
+                <table class="tbl">
+                  <thead><tr><th>Seq</th><th>SKU</th><th class="hide-sm">Bin</th><th class="hide-sm">Batch</th><th>Qty</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td class="sk">01</td><td class="sk">SKU-100238</td><td class="hide-sm"><span class="bin">A-04-2-3</span></td><td class="hide-sm">B2602</td><td>12</td><td><span class="st ok">Picked</span></td></tr>
+                    <tr><td class="sk">02</td><td class="sk">SKU-100411</td><td class="hide-sm"><span class="bin">A-04-3-1</span></td><td class="hide-sm">B2601</td><td>10</td><td><span class="st ok">Picked</span></td></tr>
+                    <tr><td class="sk">03</td><td class="sk">SKU-100755</td><td class="hide-sm"><span class="bin">B-11-1-2</span></td><td class="hide-sm">B2559</td><td>6</td><td><span class="st warn">Short 2</span></td></tr>
+                    <tr><td class="sk">04</td><td class="sk">SKU-100902</td><td class="hide-sm"><span class="bin">B-11-4-4</span></td><td class="hide-sm">B2603</td><td>4</td><td><span class="st">Queued</span></td></tr>
+                  </tbody>
+                </table>
+                <div class="mock-row" style="border-top:1px solid var(--line);padding-top:.6rem">
+                  <span class="mono dim">Strategy FEFO · pick-face seq A→B</span>
+                  <span class="badge">Short-pick log</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabpanel" id="panel-tms" role="tabpanel" aria-labelledby="tab-tms" tabindex="0">
+          <div class="preview-frame">
+            <div class="stack">
+              <span class="badge">TMS · Driver app</span>
+              <h3 class="h3">The driver sees today's stops in order. You see them move.</h3>
+              <p class="muted" style="font-size:var(--fs-sm)">Load list per vehicle, sequential stops with pallet counts, POD and returns captured at the door. The dispatch board updates as each stop closes, so you stop chasing the phone for status.</p>
+              <ul class="tick">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Pallet &amp; vehicle capacity validated before dispatch</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Route sequence optimised per trip</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Failed-delivery reason codes feed the next plan</li>
+              </ul>
+              <a class="link-arrow" href="#/products/tms">Explore TMS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+            <div class="mock">
+              <div class="mock-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">tms.semutz.app / dispatch / trip-2210</span></div>
+              <div class="mock-body" style="display:grid;grid-template-columns:1fr auto;gap:.7rem;align-items:start">
+                <div class="stack" style="gap:.5rem">
+                  <div class="mock-row"><span class="mock-h">Trip <span class="code">TRIP-2210</span></span><span class="st ok">En route</span></div>
+                  <div class="mock-row"><span class="mono dim">W01 → Zone North · 6 stops</span><span class="mono dim">18 pallets / 20</span></div>
+                  <div class="prog"><i style="width:38%"></i></div>
+                  <div class="kpis" style="grid-template-columns:1fr 1fr">
+                    <div class="kpi gold"><b>2/6</b><span>Stops done</span></div>
+                    <div class="kpi"><b>14:20</b><span>ETA last stop</span></div>
+                  </div>
+                </div>
+                <div class="phone">
+                  <div class="phone-screen">
+                    <div class="mock-row"><span class="mock-h" style="font-size:.76rem">Today · Van W-04</span><span class="st">3/6</span></div>
+                    <div style="position:relative">
+                      <span class="stops-line"></span>
+                      <div class="stack" style="gap:.4rem;position:relative">
+                        <div class="stop done"><span class="idx">✓</span><span><b>Ali Supermart</b><small>08:12 · POD signed</small></span><span class="st ok">Done</span></div>
+                        <div class="stop done"><span class="idx">✓</span><span><b>Kirana Mart</b><small>08:48 · 2 ctn returned</small></span><span class="st ok">Done</span></div>
+                        <div class="stop"><span class="idx">3</span><span><b>Sumber Jaya</b><small>ETA 09:35 · 4 pallets</small></span><span class="st warn">Next</span></div>
+                        <div class="stop"><span class="idx">4</span><span><b>PantryLink DC</b><small>ETA 10:20 · 6 pallets</small></span><span class="st">Queued</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabpanel" id="panel-erp" role="tabpanel" aria-labelledby="tab-erp" tabindex="0">
+          <div class="preview-frame">
+            <div class="stack">
+              <span class="badge">ERP · Order to invoice</span>
+              <h3 class="h3">The delivery is signed. The invoice runs itself.</h3>
+              <p class="muted" style="font-size:var(--fs-sm)">Pricing rules, trade terms and tax resolve against the same master data the warehouse picked from. What was picked is what was delivered is what was invoiced — one document trail, fully auditable.</p>
+              <ul class="tick">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Automated invoicing on POD confirmation</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Finance ledger &amp; tax posting interface</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Credit-limit &amp; aging checks before dispatch release</li>
+              </ul>
+              <a class="link-arrow" href="#/products/erp">Explore ERP <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+            <div class="mock">
+              <div class="mock-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">erp.semutz.app / billing / INV-44120</span></div>
+              <div class="mock-body">
+                <div class="mock-row"><span class="mock-h">Invoice <span class="code">INV-44120</span></span><span class="st ok">Posted</span></div>
+                <div class="kpis">
+                  <div class="kpi gold"><b>RM 4,180.00</b><span>Net</span></div>
+                  <div class="kpi"><b>RM 250.80</b><span>Tax</span></div>
+                  <div class="kpi"><b>30 d</b><span>Terms</span></div>
+                </div>
+                <table class="tbl">
+                  <thead><tr><th>Doc</th><th>Ref</th><th class="hide-sm">Linked from</th><th style="text-align:right">Value</th></tr></thead>
+                  <tbody>
+                    <tr><td class="sk">SO-70914</td><td>Sales order</td><td class="hide-sm">SFA order capture</td><td style="text-align:right">4,180.00</td></tr>
+                    <tr><td class="sk">DO-88214</td><td>Delivery order</td><td class="hide-sm">WMS pick &amp; pack</td><td style="text-align:right">3,940.00</td></tr>
+                    <tr><td class="sk">TRIP-2210</td><td>Trip sheet</td><td class="hide-sm">TMS dispatch</td><td style="text-align:right">—</td></tr>
+                    <tr><td class="sk">INV-44120</td><td>Invoice</td><td class="hide-sm">POD 09:12</td><td style="text-align:right"><b>4,430.80</b></td></tr>
+                  </tbody>
+                </table>
+                <div class="mock-row" style="border-top:1px solid var(--line);padding-top:.6rem">
+                  <span class="mono dim">Short-pick credited · price rule PR-07 applied</span>
+                  <span class="badge">Send to customer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="hero-note" style="margin-top:1rem">Interface previews rendered from Semutz product designs with sample records.</p>
+    </div>
+  </section>
+
+  <!-- HOW THE COLONY MOVES -->
+  <section class="sec grid-bg" style="border-top:1px solid var(--line)">
+    <span class="glow gold" style="width:460px;height:460px;top:10%;left:40%"></span>
+    <div class="wrap">
+      <div class="sec-head center rv">
+        <span class="eyebrow no-rule">How the colony moves</span>
+        <h2 class="h2">One order. Four products. Zero re-typing.</h2>
+        <p class="lead">An order starts with a rep, a shopkeeper or a purchase order — and it never leaves the system until the invoice posts. ERP is the connective backbone underneath all three operational products.</p>
+      </div>
+
+      <div class="colony rv d1" aria-hidden="true">
+        <svg viewBox="0 0 1000 300" role="presentation">
+          <defs>
+            <linearGradient id="colG" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#EA580C"/><stop offset="1" stop-color="#DC2626"/>
+            </linearGradient>
+          </defs>
+          <path id="colPath" d="M90 118 H910" fill="none" stroke="url(#colG)" stroke-width="2" opacity=".5"/>
+          <path class="trail-dash" d="M90 118 H910" fill="none"/>
+          <path class="trail-dash b" d="M90 118 H910" fill="none"/>
+          <circle r="4" fill="#FBBF24"><animateMotion dur="7s" repeatCount="indefinite"><mpath href="#colPath"/></animateMotion></circle>
+          <circle r="3" fill="#fff" opacity=".9"><animateMotion dur="7s" begin="-3.4s" repeatCount="indefinite"><mpath href="#colPath"/></animateMotion></circle>
+          <path d="M90 232 H910" fill="none" stroke="#FBBF24" stroke-width="1.4" stroke-dasharray="4 8" opacity=".45"/>
+          <text class="node-lab" x="500" y="264" text-anchor="middle" style="letter-spacing:.2em">ERP · SHARED MASTER DATA · ORDER-TO-INVOICE · AUDIT TRAIL</text>
+
+          <g class="node" style="color:#EA580C">
+            <circle cx="90" cy="118" r="26" fill="none" stroke="#EA580C" stroke-width="2"/>
+            <text x="90" y="124" text-anchor="middle" fill="#EA580C" style="font-family:var(--f-mono);font-size:15px;font-weight:600">SFA</text>
+            <text class="node-t" x="90" y="66" text-anchor="middle">Order placed</text>
+            <text class="node-lab" x="90" y="180" text-anchor="middle">REP / RETAILER</text>
+          </g>
+          <g class="node" style="color:#F59E0B">
+            <circle cx="363" cy="118" r="26" fill="none" stroke="#F59E0B" stroke-width="2"/>
+            <text x="363" y="124" text-anchor="middle" fill="#F59E0B" style="font-family:var(--f-mono);font-size:15px;font-weight:600">WMS</text>
+            <text class="node-t" x="363" y="66" text-anchor="middle">Picked &amp; packed</text>
+            <text class="node-lab" x="363" y="180" text-anchor="middle">WAREHOUSE</text>
+          </g>
+          <g class="node" style="color:#DC2626">
+            <circle cx="637" cy="118" r="26" fill="none" stroke="#DC2626" stroke-width="2"/>
+            <text x="637" y="124" text-anchor="middle" fill="#DC2626" style="font-family:var(--f-mono);font-size:15px;font-weight:600">TMS</text>
+            <text class="node-t" x="637" y="66" text-anchor="middle">Dispatched &amp; delivered</text>
+            <text class="node-lab" x="637" y="180" text-anchor="middle">TRANSPORT</text>
+          </g>
+          <g class="node" style="color:#FBBF24">
+            <circle cx="910" cy="118" r="26" fill="none" stroke="#FBBF24" stroke-width="2"/>
+            <text x="910" y="124" text-anchor="middle" fill="#FBBF24" style="font-family:var(--f-mono);font-size:12px;font-weight:600">SHELF</text>
+            <text class="node-t" x="910" y="66" text-anchor="middle">Invoiced</text>
+            <text class="node-lab" x="910" y="180" text-anchor="middle">RETAIL OUTLET</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="chains rv d2">
+        <div class="c"><b>Order placed</b><span>Rep, retailer app or EDI PO captured as a sales order with pricing already resolved.</span></div>
+        <div class="c"><b>Picked &amp; packed</b><span>FEFO allocation, scan-verified pick, carton labels printed for the trip.</span></div>
+        <div class="c"><b>Dispatched &amp; delivered</b><span>Load list, stop sequence, POD at the door, exceptions coded on the spot.</span></div>
+        <div class="c"><b>Invoiced</b><span>POD triggers the invoice, credits short-picks, posts to finance and closes the loop.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM TEASER -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="grid g2" style="align-items:center;gap:clamp(1.5rem,4vw,3.5rem)">
+        <div class="stack rv">
+          <span class="eyebrow">On one platform</span>
+          <h2 class="h2">Not four apps bolted together</h2>
+          <p class="lead">One SKU record. One customer record. One price list. Change a bin location or a credit limit once and every product knows — because there is only one copy of the truth.</p>
+          <div class="chips">
+            <span class="chip"><i class="dot"></i>API-first</span>
+            <span class="chip"><i class="dot"></i>GraphQL</span>
+            <span class="chip"><i class="dot"></i>Multi-tenant cloud</span>
+            <span class="chip"><i class="dot"></i>Role-based access</span>
+          </div>
+          <a class="link-arrow" href="#/platform">How the platform fits together <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+        <div class="card glass card-pad-lg rv d1">
+          <div class="mock-row" style="margin-bottom:.9rem"><span class="mock-h">Master data · item <span class="code">SKU-100238</span></span><span class="st ok">Synced</span></div>
+          <table class="tbl">
+            <tbody>
+              <tr><td class="mono dim">Description</td><td>Chilli Sauce 340g</td></tr>
+              <tr><td class="mono dim">Base UOM / Pack</td><td>CTN × 24 <span class="bin">pcs</span></td></tr>
+              <tr><td class="mono dim">Storage</td><td>Ambient · rack A <span class="bin">A-04-2-3</span></td></tr>
+              <tr><td class="mono dim">Rotation</td><td>FEFO · shelf life 540d</td></tr>
+              <tr><td class="mono dim">Price list</td><td>PR-07 · trade RM 149.30</td></tr>
+              <tr><td class="mono dim">Used by</td><td>SFA · WMS · TMS · ERP</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDUSTRIES TEASER -->
+  <section class="sec-tight">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Where we operate</span>
+        <h2 class="h2">Built for FMCG distribution, deliberately narrow</h2>
+      </div>
+      <div class="grid g4">
+        <a class="card rv" href="#/industries"><h3 class="h3" style="font-size:1.05rem">FMCG Manufacturers &amp; Brands</h3><p class="muted" style="font-size:var(--fs-sm);margin-top:.5rem">Own distribution, secondary sales and van sales fleets.</p></a>
+        <a class="card rv d1" href="#/industries"><h3 class="h3" style="font-size:1.05rem">Distributors &amp; 3PL</h3><p class="muted" style="font-size:var(--fs-sm);margin-top:.5rem">Multi-principal warehouses billing for storage and handling.</p></a>
+        <a class="card rv d2" href="#/industries"><h3 class="h3" style="font-size:1.05rem">Retail Chains &amp; Modern Trade</h3><p class="muted" style="font-size:var(--fs-sm);margin-top:.5rem">DC-to-store replenishment with pick-face discipline.</p></a>
+        <a class="card rv d3" href="#/industries"><h3 class="h3" style="font-size:1.05rem">Food &amp; Beverage Distribution</h3><p class="muted" style="font-size:var(--fs-sm);margin-top:.5rem">Short shelf life, batch traceability, cold-chain handoff.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF TEASER -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">On the floor</span>
+        <h2 class="h2">What changes in the first quarter</h2>
+      </div>
+      <div class="grid g3">
+        <div class="card rv">
+          <span class="case-num">Sample result · Distribution</span>
+          <h3 class="h3" style="margin:.6rem 0 .5rem">PO to DO cycle cut from 2 days to 4 hours</h3>
+          <p class="muted" style="font-size:var(--fs-sm)">Paper approvals replaced by a system-driven release: order lands, stock allocates, pick list prints.</p>
+          <div class="ba">
+            <div class="side"><b>Before</b><span>Manual PO book, phone approvals</span></div>
+            <span class="arrow">→</span>
+            <div class="side"><b>After</b><span>PO → DO released same morning</span></div>
+          </div>
+        </div>
+        <div class="card rv d1">
+          <span class="case-num">Sample result · Warehouse</span>
+          <h3 class="h3" style="margin:.6rem 0 .5rem">Stock accuracy from 92% to 99.4%</h3>
+          <p class="muted" style="font-size:var(--fs-sm)">Cycle counting per zone instead of one painful annual count, with variances auto-coded.</p>
+          <div class="ba">
+            <div class="side"><b>Before</b><span>Monthly blind count, 3-day freeze</span></div>
+            <span class="arrow">→</span>
+            <div class="side"><b>After</b><span>Daily zone counts, no freeze</span></div>
+          </div>
+        </div>
+        <div class="card rv d2">
+          <span class="case-num">Sample result · Field sales</span>
+          <h3 class="h3" style="margin:.6rem 0 .5rem">91% of reps' orders arrive digitally</h3>
+          <p class="muted" style="font-size:var(--fs-sm)">Order capture on the app, van stock deducted live, collections logged against the outlet.</p>
+          <div class="ba">
+            <div class="side"><b>Before</b><span>Paper order books, next-day re-keying</span></div>
+            <span class="arrow">→</span>
+            <div class="side"><b>After</b><span>Order visible in WMS instantly</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="hero-note rv d3" style="margin-top:1rem">Illustrative outcome ranges from operational rollouts — replace with your own measured, attributable results. <a href="#/case-studies" style="color:var(--orange)">See case studies →</a></p>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap">
+      <div class="band rv">
+        <div class="band-in">
+          <div>
+            <h2 class="h2">See your own data in the system</h2>
+            <p>Send us one week of orders and one rack layout. We'll build the demo on your SKUs, your bins and your routes — then you decide.</p>
+          </div>
+          <div class="band-cta">
+            <a class="btn btn-light btn-lg" href="#/contact">Book a Demo</a>
+            <a class="btn btn-ghost btn-lg" href="#/products">Explore Products</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-home -->
+
+<!-- ==================== 2. PRODUCTS ==================== -->
+<div class="page" id="page-products">
+  <section class="phead grid-bg">
+    <span class="glow ora" style="width:420px;height:420px;top:-160px;right:-100px"></span>
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="#/">Home</a><span>/</span><span aria-current="page">Products</span></nav>
+      <h1 class="h1">Four products that run the day, not a deck about it</h1>
+      <p class="lead">SFA, WMS, TMS and ERP are built as one system with one master data layer. Buy the one that hurts most first — the others are already speaking the same language.</p>
+      <div class="chips" style="margin-top:1.6rem">
+        <a class="chip" href="#/products/sfa"><i class="dot"></i>SFA · Field sales</a>
+        <a class="chip" href="#/products/wms"><i class="dot"></i>WMS · Warehouse</a>
+        <a class="chip" href="#/products/tms"><i class="dot"></i>TMS · Transport</a>
+        <a class="chip" href="#/products/erp"><i class="dot"></i>ERP · Finance spine</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="subnav">
+    <div class="wrap subnav-in">
+      <a href="#/products/sfa">SFA</a><a href="#/products/wms">WMS</a><a href="#/products/tms">TMS</a><a href="#/products/erp">ERP</a>
+      <a href="#/products" style="margin-left:auto">Compare all four</a>
+    </div>
+  </div>
+
+  <section class="sec-tight" style="padding-top:0">
+    <div class="wrap">
+      <div class="grid g2">
+        <article class="card card-pad-lg rv">
+          <div class="pcard-top" style="margin-bottom:1rem"><span class="pcard-tag">SFA</span><span class="badge neutral">Product 01</span></div>
+          <h2 class="h2" style="font-size:1.6rem">Sales Force Automation</h2>
+          <p class="lead" style="margin-top:.7rem;font-size:1rem">Empowering field sales and retail partners.</p>
+          <ul class="tick" style="margin-top:1.1rem">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Admin &amp; back-office portal — route planning, promotions, inventory, reporting</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Retailer self-service ordering portal</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Mobile app for reps — orders, van sales, collections, stock-take</li>
+          </ul>
+          <div class="pcard-foot"><span class="mono dim">For sales &amp; trade teams</span><a class="link-arrow" href="#/products/sfa">View SFA <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+        </article>
+
+        <article class="card card-pad-lg rv d1">
+          <div class="pcard-top" style="margin-bottom:1rem"><span class="pcard-tag">WMS</span><span class="badge neutral">Product 02</span></div>
+          <h2 class="h2" style="font-size:1.6rem">Warehouse Management</h2>
+          <p class="lead" style="margin-top:.7rem;font-size:1rem">Full lifecycle stock control — from goods-in to goods-out, batch to bin.</p>
+          <ul class="tick" style="margin-top:1.1rem">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Inbound, inventory strategies and outbound pick-to-ship</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Master data: items, rack locations, pallet labels, pick-face sequencing</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Stock count sessions, exception handling, ERP item receipts</li>
+          </ul>
+          <div class="pcard-foot"><span class="mono dim">For warehouse &amp; inventory ops</span><a class="link-arrow" href="#/products/wms">View WMS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+        </article>
+
+        <article class="card card-pad-lg rv d1">
+          <div class="pcard-top" style="margin-bottom:1rem"><span class="pcard-tag">TMS</span><span class="badge neutral">Product 03</span></div>
+          <h2 class="h2" style="font-size:1.6rem">Transport Management</h2>
+          <p class="lead" style="margin-top:.7rem;font-size:1rem">Plan, dispatch and track every delivery — from the back office to the truck door.</p>
+          <ul class="tick" style="margin-top:1.1rem">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>TMS Portal: purchase orders, picking coordination, live tracking, users</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Driver app: journey view, load list, sequential stops, live status</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Vehicle &amp; pallet-capacity planning, route optimisation</li>
+          </ul>
+          <div class="pcard-foot"><span class="mono dim">For dispatch &amp; logistics</span><a class="link-arrow" href="#/products/tms">View TMS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+        </article>
+
+        <article class="card card-pad-lg rv d2">
+          <div class="pcard-top" style="margin-bottom:1rem"><span class="pcard-tag">ERP</span><span class="badge neutral">Product 04</span></div>
+          <h2 class="h2" style="font-size:1.6rem">Enterprise Resource Planning</h2>
+          <p class="lead" style="margin-top:.7rem;font-size:1rem">The system of record tying operations and finance together.</p>
+          <ul class="tick" style="margin-top:1.1rem">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Order-to-invoice processing and automated invoicing rules</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Financial &amp; accounting integration</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Master data management, cross-module reporting, audit trail</li>
+          </ul>
+          <div class="pcard-foot"><span class="mono dim">For finance &amp; management</span><a class="link-arrow" href="#/products/erp">View ERP <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h13M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap">
+      <div class="sec-head rv"><span class="eyebrow">Compare</span><h2 class="h2" style="font-size:1.8rem">Which product solves which problem</h2></div>
+      <div class="card rv d1" style="padding:0;overflow-x:auto">
+        <table class="tbl" style="min-width:720px;font-size:.82rem">
+          <thead><tr><th style="padding-left:1.2rem">Operational pain</th><th>SFA</th><th>WMS</th><th>TMS</th><th>ERP</th></tr></thead>
+          <tbody>
+            <tr><td style="padding-left:1.2rem">Reps selling blind, no history at the outlet</td><td><span class="st ok">Primary</span></td><td class="dim">—</td><td class="dim">—</td><td class="dim">—</td></tr>
+            <tr><td style="padding-left:1.2rem">Stock found on the floor that the system says doesn't exist</td><td class="dim">—</td><td><span class="st ok">Primary</span></td><td class="dim">—</td><td><span class="st info">Records</span></td></tr>
+            <tr><td style="padding-left:1.2rem">Near-dated batch shipped before older stock</td><td class="dim">—</td><td><span class="st ok">Primary</span></td><td><span class="st info">Checks</span></td><td class="dim">—</td></tr>
+            <tr><td style="padding-left:1.2rem">Dispatch doesn't know what's on the truck</td><td class="dim">—</td><td><span class="st info">Feeds</span></td><td><span class="st ok">Primary</span></td><td class="dim">—</td></tr>
+            <tr><td style="padding-left:1.2rem">Delivery status chased by phone all day</td><td class="dim">—</td><td class="dim">—</td><td><span class="st ok">Primary</span></td><td><span class="st info">Visibility</span></td></tr>
+            <tr><td style="padding-left:1.2rem">Invoices raised days after delivery</td><td class="dim">—</td><td class="dim">—</td><td><span class="st info">POD</span></td><td><span class="st ok">Primary</span></td></tr>
+            <tr><td style="padding-left:1.2rem">Same SKU spelled three ways across departments</td><td><span class="st info">Shared</span></td><td><span class="st info">Shared</span></td><td><span class="st info">Shared</span></td><td><span class="st ok">Owns</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap">
+      <div class="band rv">
+        <div class="band-in">
+          <div><h2 class="h2" style="font-size:1.9rem">Start with one product. Grow on the same trail.</h2>
+          <p>Most teams start with WMS or SFA, then add TMS and ERP once master data is clean. No rip-and-replace, no parallel systems left behind.</p></div>
+          <div class="band-cta"><a class="btn btn-light btn-lg" href="#/contact">Book a Demo</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /page-products -->
+
+<!-- product detail (rendered by the router) -->
+<div class="page" id="page-product"></div>
+
+<!-- ==================== 3. PLATFORM ==================== -->
+<div class="page" id="page-platform">
+  <section class="phead grid-bg">
+    <span class="glow red" style="width:400px;height:400px;top:-140px;left:-80px"></span>
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="#/">Home</a><span>/</span><span aria-current="page">Platform</span></nav>
+      <h1 class="h1">One system, four products — not four silos with an integration bill</h1>
+      <p class="lead">Semutz runs as a single multi-tenant platform. SFA, WMS, TMS and ERP are surfaces over one shared master data layer, one permission model and one audit trail.</p>
+      <div class="grid g4" style="margin-top:2.25rem">
+        <div class="card rv"><div class="mono dim">One SKU record</div><p style="margin-top:.5rem;font-size:var(--fs-sm)">Item, pack, batch rules and storage profile defined once.</p></div>
+        <div class="card rv d1"><div class="mono dim">One customer record</div><p style="margin-top:.5rem;font-size:var(--fs-sm)">Credit limit, terms, route, outlet channel — shared by sales, dispatch and finance.</p></div>
+        <div class="card rv d2"><div class="mono dim">One document trail</div><p style="margin-top:.5rem;font-size:var(--fs-sm)">SO → DO → Trip → Invoice linked end to end, immutable history.</p></div>
+        <div class="card rv d3"><div class="mono dim">One permission model</div><p style="margin-top:.5rem;font-size:var(--fs-sm)">Roles by site, warehouse, route and product — not per-app logins.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="sec-head rv"><span class="eyebrow">A day in the life of an order</span><h2 class="h2">Follow one order, see every product work</h2><p class="lead">This is the same record moving through the same database — one row of truth, six handoffs, no re-keying in between.</p></div>
+      <div class="tl rv d1">
+        <div class="tl-step done"><i></i><em>06:40 · SFA</em><b>Order placed</b><p>Rep confirms 28 cartons at Ali Supermart. Pricing and promo resolved on capture.</p><span class="tcode">SO-70914</span></div>
+        <div class="tl-step done"><i></i><em>07:05 · WMS</em><b>Stock allocated</b><p>FEFO picks the oldest eligible batches; short lines flagged before the pick starts.</p><span class="tcode">DO-88214</span></div>
+        <div class="tl-step done"><i></i><em>07:52 · WMS</em><b>Picked &amp; packed</b><p>Scan-verified pick down racks A→B, cartons labelled for stop sequence.</p><span class="tcode">PKG-3391</span></div>
+        <div class="tl-step done"><i></i><em>08:05 · TMS</em><b>Loaded &amp; dispatched</b><p>Capacity check against 18/20 pallets, trip sheet released to the driver app.</p><span class="tcode">TRIP-2210</span></div>
+        <div class="tl-step"><i></i><em>09:12 · TMS</em><b>Delivered</b><p>Driver captures POD at the door; 2 short cartons coded as a return.</p><span class="tcode">POD-77120</span></div>
+        <div class="tl-step"><i></i><em>09:15 · ERP</em><b>Invoiced</b><p>Invoice posts against the delivery, short-pick credited, ledger updated.</p><span class="tcode">INV-44120</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-tight" style="padding-top:0">
+    <div class="wrap">
+      <div class="grid g2" style="gap:clamp(1.5rem,4vw,3rem)">
+        <div class="rv">
+          <span class="eyebrow">Integration approach</span>
+          <h2 class="h2" style="font-size:1.75rem;margin:1rem 0 .9rem">API-first, documented, boring on purpose</h2>
+          <p class="lead" style="font-size:1rem">Your finance package, your e-commerce channel, your principal's EDI feed and your handheld scanners all talk to the same endpoints. Nothing is locked behind a screen only one vendor can configure.</p>
+          <ul class="tick" style="margin-top:1.25rem">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>REST &amp; GraphQL endpoints over shared master data</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Webhooks on document events (SO, DO, POD, invoice)</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Bulk CSV / EDI import for customer, item and price masters</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>Sandbox tenant for your team to build against before go-live</li>
+          </ul>
+        </div>
+        <div class="card glass card-pad-lg rv d1">
+          <div class="mock-bar" style="border:0;padding:0 0 .7rem"><span class="dots"><i></i><i></i><i></i></span><span class="url">POST /graphql · application/json</span></div>
+          <pre class="code" style="margin:0;overflow-x:auto;font-size:.74rem;line-height:1.75;color:var(--tx-2)"><span class="dim"># Allocate stock for a confirmed order</span>
+query {
+  salesOrder(<span style="color:var(--gold)">ref</span>: <span style="color:var(--orange)">"SO-70914"</span>) {
+    customer { code name route creditLimit }
+    lines {
+      sku
+      description
+      qtyOrdered
+      allocation(strategy: <span style="color:var(--gold)">FEFO</span>) {
+        bin batch expiry qty
+      }
+    }
+    deliveryOrder { ref status }
+  }
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap">
+      <div class="sec-head rv"><span class="eyebrow">Migration path</span><h2 class="h2" style="font-size:1.8rem">From spreadsheets and legacy point tools</h2></div>
+      <div class="grid g2" style="gap:clamp(1.5rem,4vw,3rem)">
+        <div class="steps rv">
+          <div class="step"><h4>Week 1 — Map what you have</h4><p>We take your item list, customer list, rack layout and current price lists. Where the data disagrees with itself, we show you the conflicts before anything moves.</p></div>
+          <div class="step"><h4>Week 2 — Clean master data once</h4><p>Deduplicate SKUs and customers, agree pack sizes and storage rules, load the shared layer. This is the step most projects skip — it's why ours don't stall.</p></div>
+          <div class="step"><h4>Week 3 — Run one process live</h4><p>Usually goods-in or order capture. Your team uses the real screen on the real floor while the old method stays available in parallel.</p></div>
+          <div class="step"><h4>Week 4+ — Add the next product</h4><p>TMS or ERP follows on the same data. No second migration, because there is nothing to migrate — it's already the same database.</p></div>
+        </div>
+        <div class="acc rv d1">
+          <details open><summary>Do we have to move off our current accounting software?</summary><div class="acc-body">No. Semutz ERP handles order-to-invoice and operations-side financial documents, then posts to your accounting ledger through a supported integration. If you already run a finance package you trust, we keep it and feed it.</div></details>
+          <details><summary>What happens to our spreadsheets?</summary><div class="acc-body">They become imports. We take them as they are, flag what can't be trusted, and give your team read-only reporting out of the system so the spreadsheet stops being the operational record.</div></details>
+          <details><summary>Can we run one product without the others?</summary><div class="acc-body">Yes. SFA or WMS can run standalone with a light master data set. The moment you add a second product, the shared layer is already in place — that's the difference from stitching point solutions together.</div></details>
+          <details><summary>How is the deployment hosted?</summary><div class="acc-body">Cloud-hosted, multi-tenant, with per-tenant data isolation and role-based access by site, warehouse, route and product. Environments are separated into production and sandbox, with audit history retained on every document.</div></details>
+          <details><summary>What about devices on the floor?</summary><div class="acc-body">Warehouse screens run on standard Android handhelds and tablets; the driver and rep apps run on Android and iOS. No proprietary hardware purchase is required to go live.</div></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap">
+      <div class="band rv">
+        <div class="band-in">
+          <div><h2 class="h2" style="font-size:1.9rem">Bring your messiest data to the demo</h2>
+          <p>Rack list, item master, price list — whatever state it's in. Seeing the platform work on your real data beats any slide about it.</p></div>
+          <div class="band-cta"><a class="btn btn-light btn-lg" href="#/contact">Book a Demo</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /page-platform -->
+
+<!-- ==================== 4. INDUSTRIES ==================== -->
+<div class="page" id="page-industries">
+  <section class="phead grid-bg">
+    <span class="glow ora" style="width:400px;height:400px;top:-150px;right:-90px"></span>
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="#/">Home</a><span>/</span><span aria-current="page">Industries</span></nav>
+      <h1 class="h1">Four FMCG distribution segments. We stay in our lane.</h1>
+      <p class="lead">Semutz is built for moving packaged goods from a supplier to a shelf. If your operation lives in that trail, we can help — if it doesn't, we'll tell you.</p>
+    </div>
+  </section>
+
+  <section class="sec-tight" style="padding-top:0">
+    <div class="wrap grid" style="gap:clamp(1.25rem,2.5vw,1.75rem)">
+
+      <article class="card card-pad-lg rv">
+        <div class="grid g2" style="gap:clamp(1.25rem,3vw,2.5rem)">
+          <div>
+            <span class="badge">Segment 01</span>
+            <h2 class="h2" style="font-size:1.55rem;margin:.8rem 0 .6rem">FMCG Manufacturers &amp; Brands</h2>
+            <p class="muted" style="font-size:var(--fs-sm)">You own the brand and increasingly own the route to market: secondary sales, van sales fleets, distributor claims and trade promotions across hundreds of outlets.</p>
+            <div class="chips" style="margin-top:1rem"><span class="chip"><i class="dot"></i>SFA</span><span class="chip"><i class="dot"></i>WMS</span><span class="chip"><i class="dot"></i>TMS</span><span class="chip"><i class="dot"></i>ERP</span></div>
+          </div>
+          <div class="grid" style="gap:.9rem">
+            <div><div class="mono dim">Challenges</div><p style="font-size:var(--fs-sm);margin-top:.35rem">Van stock that nobody can reconcile · trade spend approved on paper · outlet-level sell-out unknown until month end.</p></div>
+            <div><div class="mono dim">How Semutz helps</div><p style="font-size:var(--fs-sm);margin-top:.35rem">SFA captures every outlet order and van movement; WMS reconciles plant and DC stock; TMS proves delivery; ERP settles trade terms against real sell-in.</p></div>
+            <div><div class="mono dim">Expected outcomes</div><p style="font-size:var(--fs-sm);margin-top:.35rem">Outlet-level visibility inside the day · van stock variance found at the stop, not at month end · promotion spend attributable to the outlet that earned it.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card card-pad-lg rv">
+        <div class="grid g2" style="gap:clamp(1.25rem,3vw,2.5rem)">
+          <div>
+            <span class="badge">Segment 02</span>
+            <h2 class="h2" style="font-size:1.55rem;margin:.8rem 0 .6rem">Distributors &amp; 3PL Warehouses</h2>
+            <p class="muted" style="font-size:var(--fs-sm)">Multi-principal operations where every pallet belongs to someone else, and you bill for storage, handling and delivery on top of it.</p>
+            <div class="chips" style="margin-top:1rem"><span class="chip"><i class="dot"></i>WMS</span><span class="chip"><i class="dot"></i>TMS</span><span class="chip"><i class="dot"></i>ERP</span></div>
+          </div>
+          <div class="grid" style="gap:.9rem">
+            <div><div class="mono dim">Challenges</div><p style="font-size:var(--fs-sm);margin-top:.35rem">Owner-level stock accuracy · handling charges rebuilt by hand each cycle · SLA claims you can't prove or disprove.</p></div>
+            <div><div class="mono dim">How Semutz helps</div><p style="font-size:var(--fs-sm);margin-top:.35rem">WMS keeps stock by owner, SKU, batch and bin with cycle-count evidence; TMS records every stop and exception; ERP turns activity into billable documents.</p></div>
+            <div><div class="mono dim">Expected outcomes</div><p style="font-size:var(--fs-sm);margin-top:.35rem">Owner stock statements generated from the same records you picked from · charges defended with timestamps · disputed delivery claims settled from POD data.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card card-pad-lg rv">
+        <div class="grid g2" style="gap:clamp(1.25rem,3vw,2.5rem)">
+          <div>
+            <span class="badge">Segment 03</span>
+            <h2 class="h2" style="font-size:1.55rem;margin:.8rem 0 .6rem">Retail Chains &amp; Modern Trade</h2>
+            <p class="muted" style="font-size:var(--fs-sm)">DC-to-store replenishment across many outlets with fixed delivery windows, pallet limits and store-level ranging.</p>
+            <div class="chips" style="margin-top:1rem"><span class="chip"><i class="dot"></i>WMS</span><span class="chip"><i class="dot"></i>TMS</span><span class="chip"><i class="dot"></i>ERP</span></div>
+          </div>
+          <div class="grid" style="gap:.9rem">
+            <div><div class="mono dim">Challenges</div><p style="font-size:var(--fs-sm);margin-top:.35rem">Trucks leaving DC half-filled · stores receiving wrong pallet mixes · replenishment based on spreadsheet forecasts.</p></div>
+            <div><div class="mono dim">How Semutz helps</div><p style="font-size:var(--fs-sm);margin-top:.35rem">WMS builds store-specific pallet mixes at pick time; TMS sequences stops to the store's delivery window; ERP reconciles store receipts and invoices.</p></div>
+            <div><div class="mono dim">Expected outcomes</div><p style="font-size:var(--fs-sm);margin-top:.35rem">Higher pallet utilisation per trip · fewer store rejections at the bay · one document trail from DC release to store receipt.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card card-pad-lg rv">
+        <div class="grid g2" style="gap:clamp(1.25rem,3vw,2.5rem)">
+          <div>
+            <span class="badge">Segment 04</span>
+            <h2 class="h2" style="font-size:1.55rem;margin:.8rem 0 .6rem">Food &amp; Beverage Distribution</h2>
+            <p class="muted" style="font-size:var(--fs-sm)">Short shelf life, batch and expiry discipline, cold-chain handoffs and customers who will reject a pallet over three days of dating.</p>
+            <div class="chips" style="margin-top:1rem"><span class="chip"><i class="dot"></i>WMS</span><span class="chip"><i class="dot"></i>TMS</span><span class="chip"><i class="dot"></i>ERP</span></div>
+          </div>
+          <div class="grid" style="gap:.9rem">
+            <div><div class="mono dim">Challenges</div><p style="font-size:var(--fs-sm);margin-top:.35rem">Writing off stock that rotated wrong · recalls that take days to trace · delivery windows and temperature constraints.</p></div>
+            <div><div class="mono dim">How Semutz helps</div><p style="font-size:var(--fs-sm);margin-top:.35rem">WMS enforces FIFO/LIFO/FEFO at allocation with batch and expiry on every movement; TMS sequences time-critical stops; ERP holds the full trace for recall.</p></div>
+            <div><div class="mono dim">Expected outcomes</div><p style="font-size:var(--fs-sm);margin-top:.35rem">Batch trace completed in minutes rather than by files and phone calls · less near-dated write-off · written proof of rotation policy on every order.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <p class="hero-note rv">Banking, government, healthcare and telecom are deliberately not on this list. Semutz builds for packaged-goods distribution — that focus is the point.</p>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap"><div class="band rv"><div class="band-in">
+      <div><h2 class="h2" style="font-size:1.9rem">Not sure which segment you are?</h2><p>Describe your operation in the demo request. We'll tell you which product sequence fits and which one you don't need yet.</p></div>
+      <div class="band-cta"><a class="btn btn-light btn-lg" href="#/contact">Book a Demo</a></div>
+    </div></div></div>
+  </section>
+</div><!-- /page-industries -->
+
+<!-- ==================== 5. CASE STUDIES ==================== -->
+<div class="page" id="page-cases">
+  <section class="phead grid-bg">
+    <span class="glow gold" style="width:360px;height:360px;top:-130px;left:-70px"></span>
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="#/">Home</a><span>/</span><span aria-current="page">Case Studies</span></nav>
+      <h1 class="h1">What it looked like before, and what the system changed</h1>
+      <p class="lead">Each study is written as an operations problem, the products that solved it, and the numbers the client measured afterwards.</p>
+      <div class="pill" style="margin-top:1.5rem"><span class="badge neutral">Note</span><span>These studies are illustrative samples. Replace with your verified client results and written permissions before publishing.</span></div>
+    </div>
+  </section>
+
+  <section class="sec-tight" style="padding-top:0">
+    <div class="wrap grid g3">
+
+      <article class="card rv">
+        <div class="card-top">
+          <span class="case-num">CS-01 · Distribution &amp; 3PL</span>
+          <h3 class="h3" style="margin:.55rem 0 .7rem">From a paper PO book to same-morning dispatch</h3>
+          <p class="muted" style="font-size:var(--fs-sm)">A regional distributor ran purchase approvals through a paper book and phone calls, so the warehouse routinely started picking after lunch.</p>
+        </div>
+        <div style="margin-top:1rem"><div class="mono dim">Products used</div><div class="chips" style="margin-top:.5rem"><span class="chip on">WMS</span><span class="chip on">TMS</span><span class="chip on">ERP</span></div></div>
+        <div class="ba">
+          <div class="side"><b>Before</b><span>Manual PO → DO, 2-day cycle</span></div><span class="arrow">→</span>
+          <div class="side"><b>After</b><span>System-driven release, 4-hour cycle</span></div>
+        </div>
+        <div class="kpis" style="margin-top:1rem">
+          <div class="kpi gold"><b>-83%</b><span>PO to DO time</span></div>
+          <div class="kpi"><b>+11 pts</b><span>On-time dispatch</span></div>
+          <div class="kpi"><b>0</b><span>Re-keyed orders</span></div>
+        </div>
+      </article>
+
+      <article class="card rv d1">
+        <div class="card-top">
+          <span class="case-num">CS-02 · Food &amp; Beverage</span>
+          <h3 class="h3" style="margin:.55rem 0 .7rem">Batch trace that used to take three days</h3>
+          <p class="muted" style="font-size:var(--fs-sm)">A chilled and ambient food distributor needed to answer a supplier recall question from a single batch number, with proof of where it had gone.</p>
+        </div>
+        <div style="margin-top:1rem"><div class="mono dim">Products used</div><div class="chips" style="margin-top:.5rem"><span class="chip on">WMS</span><span class="chip on">TMS</span><span class="chip on">ERP</span></div></div>
+        <div class="ba">
+          <div class="side"><b>Before</b><span>Files, emails, store phone calls</span></div><span class="arrow">→</span>
+          <div class="side"><b>After</b><span>One batch query, full history</span></div>
+        </div>
+        <div class="kpis" style="margin-top:1rem">
+          <div class="kpi gold"><b>Minutes</b><span>Recall trace</span></div>
+          <div class="kpi"><b>100%</b><span>Movements batched</span></div>
+          <div class="kpi"><b>-31%</b><span>Near-dated write-off</span></div>
+        </div>
+      </article>
+
+      <article class="card rv d2">
+        <div class="card-top">
+          <span class="case-num">CS-03 · Brand-owned distribution</span>
+          <h3 class="h3" style="margin:.55rem 0 .7rem">Van sales that finally reconcile</h3>
+          <p class="muted" style="font-size:var(--fs-sm)">A brand's own secondary-sales fleet sold from the van with paper invoices; stock variance was only discovered at month end, long past the cause.</p>
+        </div>
+        <div style="margin-top:1rem"><div class="mono dim">Products used</div><div class="chips" style="margin-top:.5rem"><span class="chip on">SFA</span><span class="chip on">TMS</span><span class="chip on">ERP</span></div></div>
+        <div class="ba">
+          <div class="side"><b>Before</b><span>Month-end variance surprises</span></div><span class="arrow">→</span>
+          <div class="side"><b>After</b><span>Variance at the stop, same day</span></div>
+        </div>
+        <div class="kpis" style="margin-top:1rem">
+          <div class="kpi gold"><b>99.1%</b><span>Van stock accuracy</span></div>
+          <div class="kpi"><b>+18%</b><span>Outlets served per day</span></div>
+          <div class="kpi"><b>Same day</b><span>Cash reconciliation</span></div>
+        </div>
+      </article>
+
+      <article class="card rv">
+        <div class="card-top">
+          <span class="case-num">CS-04 · Retail chain DC</span>
+          <h3 class="h3" style="margin:.55rem 0 .7rem">Store-ready pallets instead of a loading puzzle</h3>
+          <p class="muted" style="font-size:var(--fs-sm)">A modern-trade DC built store pallet mixes at the bay, with trucks leaving partially loaded and stores rejecting mixed pallets on receipt.</p>
+        </div>
+        <div style="margin-top:1rem"><div class="mono dim">Products used</div><div class="chips" style="margin-top:.5rem"><span class="chip on">WMS</span><span class="chip on">TMS</span></div></div>
+        <div class="ba">
+          <div class="side"><b>Before</b><span>Mixed pallets at the bay</span></div><span class="arrow">→</span>
+          <div class="side"><b>After</b><span>Store-mixed at pick face</span></div>
+        </div>
+        <div class="kpis" style="margin-top:1rem">
+          <div class="kpi gold"><b>+22%</b><span>Pallets per trip</span></div>
+          <div class="kpi"><b>-46%</b><span>Store rejections</span></div>
+          <div class="kpi"><b>1</b><span>Document trail</span></div>
+        </div>
+      </article>
+
+      <article class="card rv d1">
+        <div class="card-top">
+          <span class="case-num">CS-05 · Regional distributor</span>
+          <h3 class="h3" style="margin:.55rem 0 .7rem">Retailers ordering themselves, at 10pm</h3>
+          <p class="muted" style="font-size:var(--fs-sm)">Order intake lived entirely in rep visits and WhatsApp messages, so cut-off times slipped and pick lists were rewritten constantly.</p>
+        </div>
+        <div style="margin-top:1rem"><div class="mono dim">Products used</div><div class="chips" style="margin-top:.5rem"><span class="chip on">SFA</span><span class="chip on">WMS</span></div></div>
+        <div class="ba">
+          <div class="side"><b>Before</b><span>Orders arrive all morning</span></div><span class="arrow">→</span>
+          <div class="side"><b>After</b><span>Cut-off enforced by the system</span></div>
+        </div>
+        <div class="kpis" style="margin-top:1rem">
+          <div class="kpi gold"><b>71%</b><span>Self-service orders</span></div>
+          <div class="kpi"><b>-58%</b><span>Order rewrites</span></div>
+          <div class="kpi"><b>2h</b><span>Earlier pick start</span></div>
+        </div>
+      </article>
+
+      <article class="card rv d2">
+        <div class="card-top">
+          <span class="case-num">CS-06 · Multi-principal 3PL</span>
+          <h3 class="h3" style="margin:.55rem 0 .7rem">Billing defended with timestamps</h3>
+          <p class="muted" style="font-size:var(--fs-sm)">A 3PL billed principals from a rebuilt monthly spreadsheet, and every disputed handling charge took weeks to resolve by email.</p>
+        </div>
+        <div style="margin-top:1rem"><div class="mono dim">Products used</div><div class="chips" style="margin-top:.5rem"><span class="chip on">WMS</span><span class="chip on">ERP</span></div></div>
+        <div class="ba">
+          <div class="side"><b>Before</b><span>Rebuilt monthly by hand</span></div><span class="arrow">→</span>
+          <div class="side"><b>After</b><span>Generated from live records</span></div>
+        </div>
+        <div class="kpis" style="margin-top:1rem">
+          <div class="kpi gold"><b>-70%</b><span>Billing effort</span></div>
+          <div class="kpi"><b>Same day</b><span>Dispute evidence</span></div>
+          <div class="kpi"><b>99.4%</b><span>Owner stock accuracy</span></div>
+        </div>
+      </article>
+
+      <p class="hero-note rv d2">Illustrative case studies with sample figures, written to show the shape of a real rollout. Replace the client names, products used and measured outcomes with your own verified data.</p>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap"><div class="band rv"><div class="band-in">
+      <div><h2 class="h2" style="font-size:1.9rem">Want the version with your numbers on it?</h2><p>Bring one month of orders and we'll build the same before/after view for your operation in the demo.</p></div>
+      <div class="band-cta"><a class="btn btn-light btn-lg" href="#/contact">Book a Demo</a></div>
+    </div></div></div>
+  </section>
+</div><!-- /page-cases -->
+
+<!-- ==================== 6. INSIGHTS ==================== -->
+<div class="page" id="page-insights">
+  <section class="phead grid-bg">
+    <span class="glow ora" style="width:380px;height:380px;top:-140px;right:-70px"></span>
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="#/">Home</a><span>/</span><span aria-current="page">Insights</span></nav>
+      <h1 class="h1">Field notes from warehouses, trucks and routes</h1>
+      <p class="lead">Practical writing from the teams who build and run Semutz — what we see on the floor, what we changed in the product, and what we'd do differently.</p>
+    </div>
+  </section>
+
+  <section class="sec-tight" style="padding-top:0">
+    <div class="wrap">
+      <div class="filters rv" style="margin-bottom:1.5rem">
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg>
+          <span style="position:absolute;left:-9999px">Search insights</span>
+          <input class="inp" id="insSearch" type="search" placeholder="Search articles, e.g. cycle count, POD, FEFO…" autocomplete="off">
+        </label>
+        <div class="filters" id="insFilters" role="group" aria-label="Filter by category"></div>
+      </div>
+      <div class="grid g3" id="insGrid" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap">
+      <div class="card card-pad-lg rv" style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:clamp(1rem,3vw,2rem);align-items:center">
+        <div>
+          <span class="eyebrow">Operations notes</span>
+          <h2 class="h2" style="font-size:1.6rem;margin:.9rem 0 .7rem">One email a month, written by people who run warehouses</h2>
+          <p class="muted" style="font-size:var(--fs-sm)">No sponsored research, no vendor fluff. What changed in the platform, what we learned from a rollout, and one thing worth fixing in your operation this month.</p>
+        </div>
+        <form class="form" data-demo="newsletter">
+          <div class="field"><label for="nlEmail">Work email</label><input class="inp" id="nlEmail" type="email" placeholder="you@company.com" required></div>
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+          <p class="form-ok" data-ok>Thanks — check your inbox to confirm. (Demo form: connect to your mailing list provider.)</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</div><!-- /page-insights -->
+
+<!-- ==================== 7. ABOUT ==================== -->
+<div class="page" id="page-about">
+  <section class="phead grid-bg">
+    <span class="glow red" style="width:380px;height:380px;top:-140px;left:-80px"></span>
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="#/">Home</a><span>/</span><span aria-current="page">About</span></nav>
+      <h1 class="h1">A product company built by people who ran the warehouse</h1>
+      <p class="lead">Semutz isn't a consultancy that discovered supply chain. Our founding team came out of distribution operations and internal tooling — the people who used to be woken up when the pick list was wrong.</p>
+    </div>
+  </section>
+
+  <section class="sec-tight" style="padding-top:0">
+    <div class="wrap grid g2" style="gap:clamp(1.25rem,3vw,2rem)">
+      <div class="card rv"><span class="eyebrow">Mission</span><h2 class="h2" style="font-size:1.45rem;margin:.9rem 0 .6rem">Make the trail visible</h2><p class="muted" style="font-size:var(--fs-sm)">FMCG goods move through hands that rarely see the whole path. Our job is to make every movement legible — one order, one batch, one stop at a time — so the people doing the work can trust what the system tells them.</p></div>
+      <div class="card rv d1"><span class="eyebrow">Vision</span><h2 class="h2" style="font-size:1.45rem;margin:.9rem 0 .6rem">One system from supplier to shelf</h2><p class="muted" style="font-size:var(--fs-sm)">A distributor should not need four vendors, three integrations and a spreadsheet to move a pallet. We're building the layer where sales, warehouse, transport and finance work on the same record by default — not as an upgrade project.</p></div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap">
+      <div class="sec-head rv"><span class="eyebrow">How we build</span><h2 class="h2">Shipping beats presenting</h2></div>
+      <div class="grid g3">
+        <div class="card rv"><h3 class="h3" style="font-size:1.1rem">We sit with the operators</h3><p class="muted" style="font-size:var(--fs-sm);margin-top:.6rem">Product decisions get made on warehouse floors and in the cab of a truck, not in a workshop room. If a change doesn't survive a 6am shift, it doesn't ship.</p></div>
+        <div class="card rv d1"><h3 class="h3" style="font-size:1.1rem">We release, then listen</h3><p class="muted" style="font-size:var(--fs-sm);margin-top:.6rem">Short release cycles with real users on live data. Feedback arrives as a support ticket from a pick face, which is more useful than any survey.</p></div>
+        <div class="card rv d2"><h3 class="h3" style="font-size:1.1rem">We tell you what we don't do</h3><p class="muted" style="font-size:var(--fs-sm);margin-top:.6rem">No AI advisory practice, no ROI calculators, no industry-agnostic solutions language. If something is out of scope, we say so before the proposal.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap grid g2" style="gap:clamp(1.5rem,4vw,3rem)">
+      <div class="rv">
+        <span class="eyebrow">Milestones</span>
+        <h2 class="h2" style="font-size:1.7rem;margin:1rem 0 1.5rem">Products, in the order customers asked for them</h2>
+        <div class="milestone"><b>2017</b><h4>Semutz founded</h4><p>Started as internal tooling for a distributor's warehouse and van-sales fleet.</p></div>
+        <div class="milestone"><b>2019</b><h4>SFA launched</h4><p>Route planning, van sales and retailer ordering shipped as the first standalone product.</p></div>
+        <div class="milestone"><b>2021</b><h4>WMS launched</h4><p>Goods-in to goods-out with batch, expiry and pick-face sequencing on shared master data.</p></div>
+        <div class="milestone"><b>2023</b><h4>TMS launched</h4><p>Dispatch board, driver app and live delivery tracking joined the same database.</p></div>
+        <div class="milestone"><b>2024</b><h4>ERP launched</h4><p>Order-to-invoice, automated billing rules and finance posting closed the trail.</p></div>
+        <div class="milestone"><b>2026</b><h4>Unified platform</h4><p>All four products on one multi-tenant platform, one permission model, one audit trail.</p></div>
+      </div>
+      <div class="stack rv d1" style="gap:1.5rem">
+        <div>
+          <span class="eyebrow">Team</span>
+          <h2 class="h2" style="font-size:1.7rem;margin:.9rem 0 1rem">Small, senior, on-site</h2>
+          <p class="muted" style="font-size:var(--fs-sm)">Placeholder team cards — replace with your real leadership, photos and LinkedIn links.</p>
+        </div>
+        <div class="grid g2">
+          <div class="card team-card"><span class="avatar">AM</span><div><b>Placeholder Name</b><div class="mono dim" style="margin-top:.15rem">Founder &amp; CEO</div><p class="muted" style="font-size:var(--fs-sm);margin-top:.4rem">Ex-distribution operations lead.</p></div></div>
+          <div class="card team-card"><span class="avatar">RS</span><div><b>Placeholder Name</b><div class="mono dim" style="margin-top:.15rem">Head of Product</div><p class="muted" style="font-size:var(--fs-sm);margin-top:.4rem">Built warehouse systems in-house.</p></div></div>
+          <div class="card team-card"><span class="avatar">TN</span><div><b>Placeholder Name</b><div class="mono dim" style="margin-top:.15rem">Head of Engineering</div><p class="muted" style="font-size:var(--fs-sm);margin-top:.4rem">Platform, data and integrations.</p></div></div>
+          <div class="card team-card"><span class="avatar">LC</span><div><b>Placeholder Name</b><div class="mono dim" style="margin-top:.15rem">Head of Implementations</div><p class="muted" style="font-size:var(--fs-sm);margin-top:.4rem">Runs go-lives on live floors.</p></div></div>
+        </div>
+        <div class="card rv d2">
+          <div class="mono dim" style="margin-bottom:.7rem">Technology stack</div>
+          <div class="stack-list">
+            <span>PostgreSQL</span><span>GraphQL</span><span>REST</span><span>Event queue</span><span>React Native</span><span>Android handheld</span><span>Object storage</span><span>Role-based access</span><span>Multi-tenant isolation</span><span>Audit logging</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-tight">
+    <div class="wrap"><div class="band rv"><div class="band-in">
+      <div><h2 class="h2" style="font-size:1.9rem">Meet the people who'll be on your floor</h2><p>Demos are run by the team that implements — not a sales engineer reading a script.</p></div>
+      <div class="band-cta"><a class="btn btn-light btn-lg" href="#/contact">Book a Demo</a></div>
+    </div></div></div>
+  </section>
+</div><!-- /page-about -->
+
+<!-- ==================== 8. CONTACT ==================== -->
+<div class="page" id="page-contact">
+  <section class="phead grid-bg">
+    <span class="glow ora" style="width:420px;height:420px;top:-150px;right:-90px"></span>
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="#/">Home</a><span>/</span><span aria-current="page">Contact</span></nav>
+      <h1 class="h1">Book a demo on your own data</h1>
+      <p class="lead">Tell us which product hurts most and what your operation looks like. We'll come back within one working day with a time and a short agenda — no discovery-call funnel.</p>
+    </div>
+  </section>
+
+  <section class="sec-tight" style="padding-top:0">
+    <div class="wrap grid" style="grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(1.5rem,4vw,3rem);align-items:start">
+      <div class="card card-pad-lg rv">
+        <h2 class="h3" style="margin-bottom:1.25rem">Demo request</h2>
+        <form class="form" id="demoForm" novalidate>
+          <div class="f2">
+            <div class="field"><label for="dName">Full name</label><input class="inp" id="dName" name="name" autocomplete="name" required></div>
+            <div class="field"><label for="dEmail">Work email</label><input class="inp" id="dEmail" name="email" type="email" autocomplete="email" required></div>
+          </div>
+          <div class="f2">
+            <div class="field"><label for="dCompany">Company</label><input class="inp" id="dCompany" name="company" autocomplete="organization" required></div>
+            <div class="field"><label for="dRole">Your role</label>
+              <select class="inp" id="dRole" name="role">
+                <option>Operations / warehouse</option><option>Sales / trade</option><option>Logistics / dispatch</option><option>Finance</option><option>IT / systems</option><option>Founder / management</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label id="prodLabel">Which product(s) are you interested in?</label>
+            <div class="chips" role="group" aria-labelledby="prodLabel" style="margin-top:.2rem">
+              <label class="chip" style="cursor:pointer"><input type="checkbox" name="products" value="SFA" style="accent-color:var(--orange)"> SFA</label>
+              <label class="chip" style="cursor:pointer"><input type="checkbox" name="products" value="WMS" style="accent-color:var(--orange)"> WMS</label>
+              <label class="chip" style="cursor:pointer"><input type="checkbox" name="products" value="TMS" style="accent-color:var(--orange)"> TMS</label>
+              <label class="chip" style="cursor:pointer"><input type="checkbox" name="products" value="ERP" style="accent-color:var(--orange)"> ERP</label>
+              <label class="chip" style="cursor:pointer"><input type="checkbox" name="products" value="Not sure yet" style="accent-color:var(--orange)"> Not sure yet</label>
+            </div>
+          </div>
+          <div class="f2">
+            <div class="field"><label for="dScale">Warehouses / DCs operated</label>
+              <select class="inp" id="dScale" name="scale"><option>1 site</option><option>2–5 sites</option><option>6–20 sites</option><option>20+ sites</option><option>3PL, multi-principal</option></select>
+            </div>
+            <div class="field"><label for="dWhen">Preferred demo time</label><input class="inp" id="dWhen" name="when" type="date"></div>
+          </div>
+          <div class="field"><label for="dMsg">What should we prepare for?</label><textarea class="inp" id="dMsg" name="message" placeholder="e.g. 4,200 SKUs, 2 warehouses, reps on paper order books, dispatch still on WhatsApp"></textarea><span class="hint">Mention your current systems and the process that breaks most often.</span></div>
+          <label class="check"><input type="checkbox" id="dConsent" required><span>I agree to be contacted about this request. This demo form is a front-end template — connect it to your CRM or email endpoint before publishing.</span></label>
+          <button class="btn btn-primary btn-lg btn-block" type="submit">Request demo</button>
+          <p class="form-ok" data-ok><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" style="flex:none;margin-top:.15rem;color:#22C55E"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Request captured in this demo. Connect the form to your CRM or email endpoint to actually receive it.</span></p>
+        </form>
+      </div>
+
+      <div class="stack rv d1" style="gap:1rem">
+        <div class="card glass">
+          <div class="live" style="margin-bottom:.7rem"><i></i>WhatsApp</div>
+          <h3 class="h3" style="font-size:1.1rem">Most ops teams in this space just message us</h3>
+          <p class="muted" style="font-size:var(--fs-sm);margin:.6rem 0 1rem">Send a photo of your rack layout or a sample PO. We'll reply with what the system would do with it.</p>
+          <a class="btn btn-primary btn-block" id="waBtn" href="https://wa.me/60000000000?text=Hi%20Semutz%2C%20I%27d%20like%20a%20product%20demo" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm5.2 14.2c-.2.6-1.3 1.2-1.8 1.3-.5.1-1.1.1-1.8-.1-.4-.1-.9-.3-1.6-.6-2.7-1.2-4.5-4-4.6-4.2-.1-.2-1.1-1.5-1.1-2.8s.7-2 .9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.3.5-.3.3c-.1.1-.3.3-.1.6.2.3.7 1.2 1.5 2 1 .9 1.9 1.2 2.2 1.3.3.1.5.1.6-.1l.8-1c.2-.2.3-.2.6-.1l1.8.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>
+            Message us on WhatsApp
+          </a>
+          <p class="hero-note" style="margin-top:.7rem">Placeholder number <span class="code">+60 0-000 0000</span> — replace with your real WhatsApp Business number.</p>
+        </div>
+
+        <div class="card">
+          <div class="mono dim" style="margin-bottom:.7rem">Meeting scheduler</div>
+          <h3 class="h3" style="font-size:1.05rem">Prefer to pick a slot yourself?</h3>
+          <p class="muted" style="font-size:var(--fs-sm);margin:.6rem 0 1rem">Drop in your booking link (Calendly, Google Appointment Schedule or your own scheduler) and the button will book straight into the right person's calendar.</p>
+          <div class="card" style="background:var(--surface-2);border-style:dashed;text-align:center;padding:1.4rem">
+            <div class="mono dim">Embed target</div>
+            <p class="muted" style="font-size:var(--fs-sm);margin-top:.4rem">Scheduler widget placeholder — paste your calendar embed here.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="mono dim" style="margin-bottom:.7rem">Office</div>
+          <table class="tbl">
+            <tbody>
+              <tr><td class="mono dim">Email</td><td><a href="/cdn-cgi/l/email-protection#1d75787171725d6e7870686967337e7270" style="color:var(--orange)"><span class="__cf_email__" data-cfemail="69010c050506291a0c041c1d13470a0604">[email&#160;protected]</span></a></td></tr>
+              <tr><td class="mono dim">Phone</td><td><a href="tel:+60000000000" style="color:var(--orange)">+60 0-000 0000</a></td></tr>
+              <tr><td class="mono dim">Address</td><td>Placeholder — add your street address, city and postcode</td></tr>
+              <tr><td class="mono dim">Hours</td><td>Mon–Fri · 09:00–18:00 (GMT+8) · ops support 07:00 onwards</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /page-contact -->
+
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#/" style="margin-bottom:1rem">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M6 25C6 15 12 9 26 8" stroke="url(#bm)" stroke-width="2.2" stroke-linecap="round"/>
+            <circle cx="6" cy="25" r="3.4" fill="url(#bm)"/><circle cx="16" cy="15.6" r="2.5" fill="#FBBF24"/><circle cx="26" cy="8" r="4.2" stroke="url(#bm)" stroke-width="2.2"/>
+          </svg>
+          <span>Semutz<small>FMCG OS</small></span>
+        </a>
+        <p class="muted" style="font-size:var(--fs-sm);max-width:34ch">The operating system for FMCG distribution — from sales rep to retail shelf.</p>
+        <div class="chips" style="margin-top:1rem">
+          <a class="chip" href="#/contact"><i class="dot"></i>Book a Demo</a>
+        </div>
+      </div>
+      <div>
+        <h4>Products</h4>
+        <ul>
+          <li><a href="#/products/sfa">SFA — Sales Force Automation</a></li>
+          <li><a href="#/products/wms">WMS — Warehouse Management</a></li>
+          <li><a href="#/products/tms">TMS — Transport Management</a></li>
+          <li><a href="#/products/erp">ERP — Enterprise Resource Planning</a></li>
+          <li><a href="#/platform">Platform overview</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="#/industries">Manufacturers &amp; brands</a></li>
+          <li><a href="#/industries">Distributors &amp; 3PL</a></li>
+          <li><a href="#/industries">Retail chains &amp; modern trade</a></li>
+          <li><a href="#/industries">Food &amp; beverage</a></li>
+          <li><a href="#/case-studies">Case studies</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#/about">About</a></li>
+          <li><a href="#/insights">Insights</a></li>
+          <li><a href="#/contact">Contact</a></li>
+          <li><a href="#/contact">Book a demo</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>&copy; <span id="year">2026</span> Semutz. All rights reserved.</span>
+      <span class="mono">SFA · WMS · TMS · ERP · one trail</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+/* carousel (product sub-pages) */
+.carousel{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);padding:clamp(1rem,2.4vw,1.75rem);overflow:hidden}
+.car-viewport{overflow:hidden;border-radius:var(--r-sm)}
+.car-track{display:flex;transition:transform .55s var(--ease)}
+.mock-body{overflow-x:auto}
+.car-slide{flex:0 0 100%;min-width:0}
+.car-nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:1.1rem}
+.car-dots{display:flex;gap:.35rem;align-items:center}
+.car-dots button{width:7px;height:7px;border-radius:99px;background:var(--line-strong);transition:width .3s var(--ease),background .3s}
+.car-dots button.on{background:var(--orange);width:22px}
+.car-cap{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--tx-3);margin-top:.7rem}
+.fbox{border:1px solid var(--line);border-radius:var(--r);padding:clamp(1rem,2vw,1.35rem);background:var(--surface)}
+.fbox h4{font-family:var(--f-display);font-size:.98rem;margin-bottom:.5rem}
+.fbox ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.45rem}
+.fbox li{font-size:var(--fs-sm);color:var(--tx-2);padding-left:1.05rem;position:relative;line-height:1.5}
+.fbox li::before{content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--orange)}
+@media (max-width:860px){.detail-2{grid-template-columns:1fr!important}}
+</style>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+(function(){
+  "use strict";
+  var $ = function(s,r){return (r||document).querySelector(s);};
+  var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------------- THEME ---------------- */
+  var root = document.documentElement;
+  try{ var saved = localStorage.getItem("semutz-theme"); if(saved) root.setAttribute("data-theme", saved); }catch(e){}
+  $("#themeBtn").addEventListener("click", function(){
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try{ localStorage.setItem("semutz-theme", next); }catch(e){}
+  });
+
+  /* ---------------- NAV: mega + burger + stuck ---------------- */
+  var megaBtn = $("#megaBtn"), mega = $("#mega"), draw = $("#drawer"), burger = $("#burger");
+  function setMega(open){ mega.classList.toggle("is-open", open); megaBtn.setAttribute("aria-expanded", open ? "true":"false"); }
+  megaBtn.addEventListener("click", function(e){ e.stopPropagation(); setMega(!mega.classList.contains("is-open")); });
+  mega.addEventListener("click", function(e){ e.stopPropagation(); });
+  document.addEventListener("click", function(){ setMega(false); });
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape"){ setMega(false); closeDrawer(); } });
+  var hoverT;
+  $(".mega-wrap").addEventListener("mouseenter", function(){ if(window.innerWidth > 1080){ clearTimeout(hoverT); setMega(true); } });
+  $(".mega-wrap").addEventListener("mouseleave", function(){ if(window.innerWidth > 1080){ hoverT = setTimeout(function(){ setMega(false); }, 180); } });
+  function closeDrawer(){ draw.classList.remove("is-open"); burger.setAttribute("aria-expanded","false"); document.body.style.overflow = ""; }
+  burger.addEventListener("click", function(){
+    var open = !draw.classList.contains("is-open");
+    draw.classList.toggle("is-open", open);
+    burger.setAttribute("aria-expanded", open ? "true":"false");
+    document.body.style.overflow = open ? "hidden" : "";
+  });
+  var nav = $("#nav");
+  window.addEventListener("scroll", function(){ nav.classList.toggle("is-stuck", window.scrollY > 12); }, {passive:true});
+
+  /* ---------------- PRODUCT DATA (add new products here) ---------------- */
+  var P = {
+    sfa: {
+      name:"Sales Force Automation", tag:"SFA", num:"01", audience:"Sales teams, trade marketing and retail partners",
+      claim:"Empowering field sales and retail partners.",
+      blurb:"The rep leaves the outlet knowing the order is already in the warehouse. Pricing, promotions and van stock resolve on the device, and back-office reporting is built from the same records the rep captured.",
+      who:[["Field sales reps","Daily journey plan, order capture, van stock, collections and stock-take in one app."],["Sales supervisors","Route coverage, outlet-level sell-out, target vs actual and in-field coaching signals."],["Trade marketing","Promotion setup, trade spend tracking and claim evidence per outlet."],["Retail partners","Self-service ordering portal with their own price list and order history."]],
+      groups:[
+        ["Admin & back-office portal",["Route planning and journey cycles by territory","Promotion &amp; pricing setup with effective dates","Inventory and van-stock visibility","Reporting by rep, route, outlet and SKU"]],
+        ["Retailer self-service ordering",["Outlet-specific price list and credit terms","Live stock availability before ordering","Order history, reorder and delivery status","Cut-off enforcement into the warehouse"]],
+        ["Field rep mobile app",["Order capture with suggested quantities","Van sales and cash / cheque collections","Stock-take and returnable asset capture","Offline capture that syncs when signal returns"]]
+      ],
+      slides:[
+        ["Route plan","sfa.semutz.app / routes / day-plan","<div class='mock-row'><span class='mock-h'>Route RT-0412 &middot; Zone North</span><span class='st info'>In progress</span></div><div class='kpis'><div class='kpi gold'><b>12/18</b><span>Outlets</span></div><div class='kpi'><b>68%</b><span>Coverage</span></div><div class='kpi'><b>RM 21.4k</b><span>MTD</span></div></div><table class='tbl'><thead><tr><th>#</th><th>Outlet</th><th>Channel</th><th>Status</th></tr></thead><tbody><tr><td class='sk'>09</td><td>Ali Supermart</td><td>Grocery</td><td><span class='st ok'>Ordered</span></td></tr><tr><td class='sk'>10</td><td>Kirana Mart</td><td>Grocery</td><td><span class='st warn'>Skipped</span></td></tr><tr><td class='sk'>11</td><td>Sumber Jaya</td><td>Provision</td><td><span class='st'>Next</span></td></tr></tbody></table>"],
+        ["Order capture","sfa.semutz.app / outlet / CUST-10428 / order","<div class='mock-row'><span class='mock-h'>Ali Supermart</span><span class='st info'>Suggested</span></div><table class='tbl'><thead><tr><th>SKU</th><th>Item</th><th>Sugg.</th><th style='text-align:right'>Ordered</th></tr></thead><tbody><tr><td class='sk'>SKU-100238</td><td>Chilli Sauce 340g</td><td>12</td><td style='text-align:right'><b>12</b></td></tr><tr><td class='sk'>SKU-100411</td><td>Soy Sauce 620ml</td><td>8</td><td style='text-align:right'><b>10</b></td></tr><tr><td class='sk'>SKU-100755</td><td>Sambal Paste 200g</td><td>6</td><td style='text-align:right'><b>6</b></td></tr></tbody></table><div class='mock-row' style='border-top:1px solid var(--line);padding-top:.55rem'><span class='mono dim'>Promo P-0919 applied</span><span class='badge'>Confirm</span></div>"],
+        ["Collections","sfa.semutz.app / collections / day-close","<div class='mock-row'><span class='mock-h'>Day close &middot; 06 Oct</span><span class='st warn'>1 variance</span></div><div class='kpis'><div class='kpi gold'><b>RM 8,420</b><span>Collected</span></div><div class='kpi'><b>RM 120</b><span>Variance</span></div><div class='kpi'><b>3</b><span>Cheques</span></div></div><table class='tbl'><thead><tr><th>Outlet</th><th>Method</th><th style='text-align:right'>Amount</th></tr></thead><tbody><tr><td>Ali Supermart</td><td>Cash</td><td style='text-align:right'>2,140</td></tr><tr><td>Kirana Mart</td><td>Cheque</td><td style='text-align:right'>3,600</td></tr><tr><td>Sumber Jaya</td><td>Cash</td><td style='text-align:right'><b>2,680</b></td></tr></tbody></table>"]
+      ]
+    },
+    wms: {
+      name:"Warehouse Management", tag:"WMS", num:"02", audience:"Warehouse managers, inventory controllers and goods-in teams",
+      claim:"Full lifecycle stock control — from goods-in to goods-out, batch to bin.",
+      blurb:"One system from the gate to the truck: receiving against the PO, putaway by strategy, allocation by FEFO, and a pick list sequenced by how your racks are actually walked.",
+      who:[["Goods-in & receiving","GRN against PO, direct-putaway zones, discrepancy and damage capture at the gate."],["Inventory control","Stock by SKU, batch and location with rotating strategies and cycle-count evidence."],["Warehouse ops","Sequenced pick lists, packing, carton labels, shipping and short-pick handling."],["Warehouse admin","Rack locations, pick-face sequencing, pallet labels and stock count sessions."]],
+      groups:[
+        ["Inbound",["GRN receiving against purchase orders","Putaway rules and direct-putaway zones","Discrepancy, damage and quarantine handling","Supplier and principal receipt reconciliation"]],
+        ["Inventory",["Stock by SKU, batch and location","FIFO / LIFO / FEFO rotation strategies","Expiry and batch traceability on every movement","Stock count sessions with variance coding"]],
+        ["Outbound",["PO → DO lifecycle: picking, packing, shipping, delivered","Scan-verified pick with short-pick capture","Carton and pallet labelling for the trip","Replenishment into pick faces"]],
+        ["Master data & exceptions",["Items, rack locations, pallet labels and pick-face sequencing","ERP / NetSuite-style item receipts","Exception queues for shorts, holds and returns","Audit trail on every stock movement"]]
+      ],
+      slides:[
+        ["Goods-in & GRN","wms.semutz.app / inbound / GRN-30218","<div class='mock-row'><span class='mock-h'>GRN-30218 &middot; PO-55201</span><span class='st warn'>2 lines short</span></div><table class='tbl'><thead><tr><th>SKU</th><th>Expected</th><th>Received</th><th>Status</th></tr></thead><tbody><tr><td class='sk'>SKU-100238</td><td>240</td><td>240</td><td><span class='st ok'>Clean</span></td></tr><tr><td class='sk'>SKU-100411</td><td>120</td><td>118</td><td><span class='st warn'>Short 2</span></td></tr><tr><td class='sk'>SKU-100902</td><td>96</td><td>96</td><td><span class='st ok'>Clean</span></td></tr></tbody></table><div class='mock-row' style='border-top:1px solid var(--line);padding-top:.55rem'><span class='mono dim'>Putaway zone: A (ambient racks)</span><span class='badge'>Post GRN</span></div>"],
+        ["Pick list","wms.semutz.app / picking / DO-88214","<div class='mock-row'><span class='mock-h'>DO-88214</span><span class='st info'>Picking</span></div><div class='prog'><i style='width:64%'></i></div><table class='tbl'><thead><tr><th>Seq</th><th>Bin</th><th>Batch</th><th>Qty</th></tr></thead><tbody><tr><td class='sk'>01</td><td><span class='bin'>A-04-2-3</span></td><td>B2602</td><td>12</td></tr><tr><td class='sk'>02</td><td><span class='bin'>A-04-3-1</span></td><td>B2601</td><td>10</td></tr><tr><td class='sk'>03</td><td><span class='bin'>B-11-1-2</span></td><td>B2559</td><td>6</td></tr></tbody></table><div class='cap mono dim'>Strategy FEFO &middot; oldest eligible batch first</div>"],
+        ["Stock count","wms.semutz.app / counts / SESSION-118","<div class='mock-row'><span class='mock-h'>Session 118 &middot; Zone B</span><span class='st info'>Counting</span></div><div class='kpis'><div class='kpi gold'><b>99.4%</b><span>Accuracy</span></div><div class='kpi'><b>14</b><span>Variances</span></div><div class='kpi'><b>0</b><span>Shift stops</span></div></div><table class='tbl'><thead><tr><th>Bin</th><th>System</th><th>Counted</th><th>Var</th></tr></thead><tbody><tr><td><span class='bin'>B-11-1-2</span></td><td>24</td><td>22</td><td><span class='st late'>-2</span></td></tr><tr><td><span class='bin'>B-11-4-4</span></td><td>48</td><td>48</td><td><span class='st ok'>0</span></td></tr><tr><td><span class='bin'>B-12-2-1</span></td><td>60</td><td>61</td><td><span class='st warn'>+1</span></td></tr></tbody></table>"]
+      ]
+    },
+    tms: {
+      name:"Transport Management", tag:"TMS", num:"03", audience:"Dispatch teams, transport managers and drivers",
+      claim:"Plan, dispatch and track every delivery — from the back office to the truck door.",
+      blurb:"The dispatch board sees what is ready to go, the load list respects pallet capacity, and the driver sees today's stops in order with POD captured at the door. Exceptions come back as data, not phone calls.",
+      who:[["Dispatch & planning","Build trips, validate pallet and vehicle capacity, sequence stops and release trip sheets."],["Drivers","Daily journey view, load list per vehicle, sequential stops and status updates."],["Transport managers","Route optimisation, utilisation, on-time delivery and exception codes by route."],["Customer service","Live delivery status and POD lookup against any order or invoice."]],
+      groups:[
+        ["TMS portal (web)",["Purchase orders and picking / packing coordination","Live delivery tracking per trip and vehicle","Route planning and stop sequencing","User management and role-based access"]],
+        ["Driver app (mobile)",["Daily journey view per vehicle","Load list per vehicle with pallet counts","Sequential delivery stops with ETA","Real-time status updates and POD capture"]],
+        ["Planning & capacity",["Vehicle and pallet-capacity planning","Route optimisation against delivery windows","Failed-delivery reason codes feeding the next plan","Returnable asset and pallet tracking"]],
+        ["Delivery evidence",["POD signature, photo and timestamp at the door","Short-delivery and return capture on the spot","Delivery status visible against the order and invoice","Exception history per outlet"]]
+      ],
+      slides:[
+        ["Dispatch board","tms.semutz.app / dispatch / board","<div class='mock-row'><span class='mock-h'>Today &middot; 6 trips</span><span class='live'><i></i>Live</span></div><table class='tbl'><thead><tr><th>Trip</th><th>Vehicle</th><th>Load</th><th>Status</th></tr></thead><tbody><tr><td class='sk'>TRIP-2210</td><td>W-04</td><td>18/20 pal</td><td><span class='st ok'>En route</span></td></tr><tr><td class='sk'>TRIP-2211</td><td>W-07</td><td>12/16 pal</td><td><span class='st info'>Loading</span></td></tr><tr><td class='sk'>TRIP-2212</td><td>W-02</td><td>20/20 pal</td><td><span class='st warn'>Capacity</span></td></tr></tbody></table>"],
+        ["Driver app","tms.semutz.app / driver / trip-2210","<div class='mock-row'><span class='mock-h'>Van W-04 &middot; 6 stops</span><span class='st info'>3/6</span></div><div class='prog'><i style='width:38%'></i></div><table class='tbl'><thead><tr><th>#</th><th>Stop</th><th>ETA</th><th>Status</th></tr></thead><tbody><tr><td class='sk'>3</td><td>Sumber Jaya</td><td>09:35</td><td><span class='st warn'>Next</span></td></tr><tr><td class='sk'>4</td><td>PantryLink DC</td><td>10:20</td><td><span class='st'>Queued</span></td></tr><tr><td class='sk'>5</td><td>Kirana Mart</td><td>11:05</td><td><span class='st'>Queued</span></td></tr></tbody></table>"],
+        ["Proof of delivery","tms.semutz.app / pod / POD-77120","<div class='mock-row'><span class='mock-h'>POD-77120</span><span class='st ok'>Signed</span></div><div class='kpis'><div class='kpi gold'><b>09:12</b><span>Delivered</span></div><div class='kpi'><b>16/18</b><span>Pallets</span></div><div class='kpi'><b>2 ctn</b><span>Returned</span></div></div><table class='tbl'><tbody><tr><td class='mono dim'>Received by</td><td>A. Rahman (store keeper)</td></tr><tr><td class='mono dim'>Short reason</td><td>DAMAGED-IN-TRANSIT</td></tr><tr><td class='mono dim'>Photo evidence</td><td><span class='st ok'>Attached</span></td></tr></tbody></table>"]
+      ]
+    },
+    erp: {
+      name:"Enterprise Resource Planning", tag:"ERP", num:"04", audience:"Finance, management and system owners",
+      claim:"The system of record tying operations and finance together.",
+      blurb:"Pricing, terms and tax resolve against the same master data the warehouse picked from. What was picked is what was delivered is what was invoiced — with the audit trail to prove it.",
+      who:[["Finance","Order-to-invoice processing, automated invoicing rules and ledger posting."],["Management","Cross-module reporting on margin, service level and operational performance."],["System owners","Master data governance, role-based access and a complete audit trail."],["Credit control","Credit limits, aging exposure and dispatch release rules."]],
+      groups:[
+        ["Order-to-invoice",["Sales order to invoice processing","Automated invoicing rules on POD confirmation","Short-pick and return credits applied automatically","Credit note and adjustment handling"]],
+        ["Finance integration",["Posting to your accounting ledger","Tax determination from item and customer master","Aging, exposure and credit-limit checks","Cost and margin visibility by order line"]],
+        ["Master data management",["Items, customers, pricing and terms across all modules","Import, validation and conflict reporting","Effective-dated price lists and promotions","Change history on every master record"]],
+        ["Reporting & audit",["Cross-module reporting from one data set","Document trail: SO → DO → Trip → Invoice","Full audit log of user and system actions","Extract to BI or warehouse"]]
+      ],
+      slides:[
+        ["Order to invoice","erp.semutz.app / billing / INV-44120","<div class='mock-row'><span class='mock-h'>INV-44120</span><span class='st ok'>Posted</span></div><div class='kpis'><div class='kpi gold'><b>RM 4,180</b><span>Net</span></div><div class='kpi'><b>RM 250.80</b><span>Tax</span></div><div class='kpi'><b>30 d</b><span>Terms</span></div></div><table class='tbl'><thead><tr><th>Doc</th><th>Source</th><th style='text-align:right'>Value</th></tr></thead><tbody><tr><td class='sk'>SO-70914</td><td>SFA</td><td style='text-align:right'>4,180.00</td></tr><tr><td class='sk'>DO-88214</td><td>WMS</td><td style='text-align:right'>3,940.00</td></tr><tr><td class='sk'>INV-44120</td><td>POD 09:12</td><td style='text-align:right'><b>4,430.80</b></td></tr></tbody></table>"],
+        ["Master data","erp.semutz.app / master / items / SKU-100238","<div class='mock-row'><span class='mock-h'>SKU-100238</span><span class='st ok'>Active</span></div><table class='tbl'><tbody><tr><td class='mono dim'>Description</td><td>Chilli Sauce 340g</td></tr><tr><td class='mono dim'>Pack</td><td>CTN x 24 pcs</td></tr><tr><td class='mono dim'>Rotation</td><td>FEFO &middot; 540 days</td></tr><tr><td class='mono dim'>Price list</td><td>PR-07 &middot; RM 149.30</td></tr><tr><td class='mono dim'>Live in</td><td>SFA &middot; WMS &middot; TMS &middot; ERP</td></tr></tbody></table>"],
+        ["Audit trail","erp.semutz.app / audit / DO-88214","<div class='mock-row'><span class='mock-h'>Document history</span><span class='mono dim'>Immutable</span></div><table class='tbl'><thead><tr><th>Time</th><th>User</th><th>Action</th></tr></thead><tbody><tr><td class='sk'>07:05</td><td>sfa.sync</td><td>Allocated 28 ctn (FEFO)</td></tr><tr><td class='sk'>07:52</td><td>picker.04</td><td>Pick confirmed, 2 short</td></tr><tr><td class='sk'>09:15</td><td>erp.rule</td><td>Invoice INV-44120 posted</td></tr></tbody></table>"]
+      ]
+    }
+  };
+
+  function renderProduct(key){
+    var p = P[key]; if(!p) return;
+    var host = $("#page-product");
+    var slides = p.slides.map(function(s,i){
+      return "<div class='car-slide'><div class='mock'><div class='mock-bar'><span class='dots'><i></i><i></i><i></i></span><span class='url'>"+s[1]+"</span></div><div class='mock-body'>"+s[2]+"</div></div><div class='car-cap'>"+s[0]+"</div></div>";
+    }).join("");
+    var groups = p.groups.map(function(g){
+      return "<div class='fbox'><h4>"+g[0]+"</h4><ul>"+g[1].map(function(li){return "<li>"+li+"</li>";}).join("")+"</ul></div>";
+    }).join("");
+    var who = p.who.map(function(w){
+      return "<div class='fbox'><h4>"+w[0]+"</h4><p style='font-size:var(--fs-sm);color:var(--tx-2)'>"+w[1]+"</p></div>";
+    }).join("");
+    var others = Object.keys(P).filter(function(k){return k!==key;}).map(function(k){
+      return "<a class='chip' href='#/products/"+k+"'><i class='dot'></i>"+P[k].tag+" &middot; "+P[k].name+"</a>";
+    }).join("");
+
+    host.innerHTML =
+    "<section class='phead grid-bg'><span class='glow ora' style='width:400px;height:400px;top:-150px;right:-90px'></span><div class='wrap'>"+
+      "<nav class='crumbs' aria-label='Breadcrumb'><a href='#/'>Home</a><span>/</span><a href='#/products'>Products</a><span>/</span><span aria-current='page'>"+p.tag+"</span></nav>"+
+      "<div class='phead-side' style='margin-top:1rem'><div><span class='badge'>Product "+p.num+"</span><h1 class='h1' style='margin-top:1rem'>"+p.name+"</h1>"+
+      "<p class='lead' style='margin-top:1rem'>"+p.claim+"</p><p class='muted' style='margin-top:1rem;max-width:60ch'>"+p.blurb+"</p>"+
+      "<div class='hero-cta' style='margin-top:1.75rem'><a class='btn btn-primary btn-lg' href='#/contact'>Book a "+p.tag+" demo</a><a class='btn btn-ghost btn-lg' href='#/products'>All products</a></div></div>"+
+      "<div class='card glass'><div class='mono dim'>Who it's for</div><p style='margin-top:.6rem;font-family:var(--f-display);font-size:1.05rem;font-weight:600'>"+p.audience+"</p>"+
+      "<div class='chips' style='margin-top:1.1rem'>"+others+"</div></div></div></div></section>"+
+    "<div class='subnav'><div class='wrap subnav-in'><a href='#/products'>All products</a><a href='#/products/sfa'>SFA</a><a href='#/products/wms'>WMS</a><a href='#/products/tms'>TMS</a><a href='#/products/erp'>ERP</a><a href='#/contact' style='margin-left:auto'>Book a demo</a></div></div>"+
+    "<section class='sec-tight' style='padding-top:0'><div class='wrap'>"+
+      "<div class='sec-head rv'><span class='eyebrow'>Inside the product</span><h2 class='h2' style='font-size:1.75rem'>Screens from "+p.tag+"</h2></div>"+
+      "<div class='carousel' id='car' data-i='0'><div class='car-viewport'><div class='car-track' id='carTrack'>"+slides+"</div></div>"+
+      "<div class='car-nav'><div class='car-dots' id='carDots'>"+p.slides.map(function(s,i){return "<button aria-label='Show "+s[0]+"' class='"+(i===0?"on":"")+"'></button>";}).join("")+"</div>"+
+      "<div style='display:flex;gap:.5rem'><button class='btn btn-ghost btn-sm' data-car='-1' aria-label='Previous screen'>&larr; Prev</button><button class='btn btn-ghost btn-sm' data-car='1' aria-label='Next screen'>Next &rarr;</button></div></div></div>"+
+    "</div></section>"+
+    "<section class='sec-tight'><div class='wrap'><div class='sec-head rv'><span class='eyebrow'>Feature breakdown</span><h2 class='h2' style='font-size:1.75rem'>What ships in the box</h2></div><div class='grid g2'>"+groups+"</div></div></section>"+
+    "<section class='sec-tight'><div class='wrap'><div class='sec-head rv'><span class='eyebrow'>Who it's for</span><h2 class='h2' style='font-size:1.75rem'>Four desks, one system</h2></div><div class='grid g4'>"+who+"</div></div></section>"+
+    "<section class='sec-tight'><div class='wrap'><div class='card card-pad-lg rv detail-2' style='display:grid;grid-template-columns:minmax(0,1.2fr) auto;gap:1.75rem;align-items:center'>"+
+      "<div><h2 class='h2' style='font-size:1.65rem'>See "+p.tag+" running on your data</h2><p class='muted' style='margin-top:.7rem;max-width:56ch'>Bring a week of transactions and the process that hurts most. We'll show you exactly where "+p.tag+" sits in your trail — and what it needs from the products around it.</p></div>"+
+      "<div class='band-cta'><a class='btn btn-primary btn-lg' href='#/contact'>Book a Demo</a></div></div></div></section>";
+
+    var car = $("#car"), track = $("#carTrack"), dots = $$("#carDots button");
+    function go(i){
+      var n = p.slides.length; i = (i % n + n) % n;
+      car.dataset.i = i;
+      track.style.transform = "translateX(-" + (i*100/p.slides.length) + "%)";
+      dots.forEach(function(d,di){ d.classList.toggle("on", di===i); });
+      dots.forEach(function(d,di){ d.setAttribute("aria-current", di===i ? "true":"false"); });
+    }
+    car.addEventListener("click", function(e){
+      var b = e.target.closest("[data-car]"); if(b){ go(parseInt(car.dataset.i,10) + parseInt(b.dataset.car,10)); }
+    });
+    dots.forEach(function(d,di){ d.addEventListener("click", function(){ go(di); }); });
+    car.addEventListener("keydown", function(e){
+      if(e.key === "ArrowRight"){ go(parseInt(car.dataset.i,10)+1); }
+      if(e.key === "ArrowLeft"){ go(parseInt(car.dataset.i,10)-1); }
+    });
+    car.setAttribute("tabindex","0");
+  }
+
+  /* ---------------- INSIGHTS ---------------- */
+  var CATS = ["All","Warehouse Operations","Last-Mile Delivery","Sales Force Execution","Industry Trends","Product Updates"];
+  var ARTICLES = [
+    ["Cycle counting without stopping the shift","Replace the annual freeze with zone counts that run while the forklifts keep moving — and code every variance to its likely cause.","Warehouse Operations","12 Sep 2026","6 min"],
+    ["Why FEFO fails at the pick face, not in the system","Rotation strategy is only as good as the sequence printed on the pick list. Here is how we rebuild that sequence.","Warehouse Operations","28 Aug 2026","7 min"],
+    ["The last mile is decided at the loading bay","Pallet mix and stop sequence set the delivery up before the truck leaves. A field note from four dispatch boards.","Last-Mile Delivery","19 Aug 2026","5 min"],
+    ["Proof of delivery that survives a dispute","Photo, signature, timestamp and short-delivery codes at the door — what actually settles a claim three weeks later.","Last-Mile Delivery","02 Aug 2026","4 min"],
+    ["Suggested orders: what history can and cannot tell you","Eight weeks of sell-out is useful. Here is where it misleads new outlets, and how reps correct it in the field.","Sales Force Execution","24 Jul 2026","6 min"],
+    ["Van stock variance found at the stop, not at month end","A day-close discipline that turns a monthly surprise into a same-day correction.","Sales Force Execution","11 Jul 2026","5 min"],
+    ["Multi-principal warehouses need owner-level truth","If three principals share a rack, stock accuracy is a billing question, not just a warehouse one.","Industry Trends","30 Jun 2026","8 min"],
+    ["Short shelf life is a systems problem","Date coding, allocation and delivery windows: three places where FMCG distribution loses money on expiry.","Industry Trends","16 Jun 2026","7 min"],
+    ["Product update: trip capacity warnings and short-pick log","Release notes — capacity validation before dispatch release, and a consolidated short-pick exception queue.","Product Updates","05 Jun 2026","3 min"],
+    ["Product update: retailer portal reorder in one tap","Release notes — repeat orders from the retailer self-service portal with live availability checks.","Product Updates","21 May 2026","3 min"],
+    ["One SKU record: the migration step teams skip","Six weeks of adoption can be lost in the first week of master data. What we load first, and why.","Warehouse Operations","07 May 2026","6 min"],
+    ["Invoice on POD, not on delivery run close","Automated invoicing rules cut days out of the cash cycle. What finance needs to agree before you switch it on.","Industry Trends","22 Apr 2026","5 min"]
+  ];
+  var insGrid = $("#insGrid"), insSearch = $("#insSearch"), insFilters = $("#insFilters"), activeCat = "All";
+  if(insGrid){
+    insFilters.innerHTML = CATS.map(function(c){ return "<button class='chip"+(c==="All"?" on":"")+"' data-cat='"+c+"'>"+(c==="All"?"":"<i class='dot'></i>")+c+"</button>"; }).join("");
+    function paint(){
+      var q = (insSearch.value||"").toLowerCase().trim();
+      var list = ARTICLES.filter(function(a){
+        var okCat = activeCat === "All" || a[2] === activeCat;
+        var okQ = !q || (a[0]+" "+a[1]+" "+a[2]).toLowerCase().indexOf(q) > -1;
+        return okCat && okQ;
+      });
+      if(!list.length){
+        insGrid.innerHTML = "<div class='empty'><b>No articles match those filters.</b><div style='margin-top:.4rem;font-size:var(--fs-sm)'>Try a different category, or clear the search box.</div></div>";
+        return;
+      }
+      insGrid.innerHTML = list.map(function(a){
+        return "<article class='card art rv'><div class='meta'><span>"+a[2]+"</span><span>&middot;</span><span>"+a[3]+"</span></div><h3>"+a[0]+"</h3><p>"+a[1]+"</p><div class='pcard-foot'><span class='mono dim'>"+a[4]+" read</span><span class='link-arrow'>Read <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.2'><path d='M5 12h13M12 5l7 7-7 7' stroke-linecap='round' stroke-linejoin='round'/></svg></span></div></article>";
+      }).join("");
+      observeReveal();
+    }
+    insFilters.addEventListener("click", function(e){
+      var b = e.target.closest("[data-cat]"); if(!b) return;
+      activeCat = b.dataset.cat;
+      $$("#insFilters .chip").forEach(function(c){ c.classList.toggle("on", c===b); });
+      paint();
+    });
+    var t; insSearch.addEventListener("input", function(){ clearTimeout(t); t = setTimeout(paint, 140); });
+    paint();
+  }
+
+  /* ---------------- FORM HANDLING (demo templates) ---------------- */
+  $$("form[data-demo], #demoForm").forEach(function(f){
+    f.addEventListener("submit", function(e){
+      e.preventDefault();
+      var ok = $("[data-ok]", f.parentNode) || $("[data-ok]", f);
+      if(f.id === "demoForm"){
+        var name = $("#dName").value.trim(), email = $("#dEmail").value.trim();
+        if(!name || !email){ $("#dName").focus(); return; }
+        var chosen = $$("input[name='products']:checked", f).map(function(i){ return i.value; }).join(", ") || "General enquiry";
+        var txt = "Hi Semutz, I would like a demo. Name: " + name + " · Company: " + $("#dCompany").value.trim() + " · Products: " + chosen;
+        var wa = $("#waBtn"); if(wa){ wa.href = "https://wa.me/60000000000?text=" + encodeURIComponent(txt); }
+      }
+      if(ok){ ok.classList.add("show"); }
+      f.reset();
+    });
+  });
+
+  /* ---------------- ROUTER ---------------- */
+  var routes = {"":"page-home","products":"page-products","platform":"page-platform","industries":"page-industries","case-studies":"page-cases","insights":"page-insights","about":"page-about","contact":"page-contact"};
+  var titles = {
+    "page-home":"Semutz — The operating system for FMCG distribution",
+    "page-products":"Products — SFA, WMS, TMS & ERP for FMCG distribution | Semutz",
+    "page-platform":"Platform — one shared data layer for four products | Semutz",
+    "page-industries":"Industries — FMCG distribution segments | Semutz",
+    "page-cases":"Case Studies — FMCG distribution software in the field | Semutz",
+    "page-insights":"Insights — warehouse, last-mile and field sales notes | Semutz",
+    "page-about":"About — a product company built by supply-chain operators | Semutz",
+    "page-contact":"Contact — book a demo on your own data | Semutz"
+  };
+  function setActivePage(id){
+    $$(".page").forEach(function(p){ p.classList.remove("is-active"); });
+    var el = document.getElementById(id);
+    if(el) el.classList.add("is-active");
+    document.title = titles[id] || titles["page-home"];
+    observeReveal();
+  }
+  function route(){
+    var h = location.hash.replace(/^#\/?/, "").replace(/\/$/,"");
+    var id = routes[h];
+    if(h.indexOf("products/") === 0){
+      var key = h.split("/")[1];
+      if(P[key]){
+        setActivePage("page-product"); renderProduct(key);
+        document.title = P[key].name + " — " + P[key].claim + " | Semutz";
+      } else { setActivePage("page-products"); }
+    } else if(id){
+      setActivePage(id);
+    } else {
+      setActivePage("page-home");
+    }
+    closeDrawer(); setMega(false);
+    $$(".nav-links a, .drawer nav a, .foot a").forEach(function(a){
+      var href = a.getAttribute("href") || "";
+      if(href === "#/" + h + "" || (h === "" && href === "#/")){ a.setAttribute("aria-current","page"); }
+      else if(href.indexOf("#/") === 0){ a.removeAttribute("aria-current"); }
+    });
+    window.scrollTo({top:0, behavior:"auto"});
+  }
+  window.addEventListener("hashchange", route);
+
+  /* ---------------- TABS (homepage preview) ---------------- */
+  $$("[role='tab']").forEach(function(tab){
+    tab.addEventListener("click", function(){
+      var group = tab.closest("section") || document;
+      $$("[role='tab']", group).forEach(function(t){ t.setAttribute("aria-selected","false"); });
+      $$("[role='tabpanel']", group).forEach(function(p){ p.classList.remove("is-active"); });
+      tab.setAttribute("aria-selected","true");
+      var panel = document.getElementById(tab.getAttribute("aria-controls"));
+      if(panel) panel.classList.add("is-active");
+    });
+    tab.addEventListener("keydown", function(e){
+      var tabs = $$("[role='tab']", tab.parentNode);
+      var i = tabs.indexOf(tab), n = tabs.length;
+      if(e.key === "ArrowRight"){ tabs[(i+1)%n].focus(); tabs[(i+1)%n].click(); }
+      if(e.key === "ArrowLeft"){ tabs[(i-1+n)%n].focus(); tabs[(i-1+n)%n].click(); }
+    });
+  });
+
+  /* ---------------- REVEAL + COUNTERS ---------------- */
+  var revObs = null;
+  var RV = ".rv:not(.in)";
+  function show(el){ el.classList.add("in"); }
+  function revealInView(){
+    var vh = window.innerHeight || document.documentElement.clientHeight || 800;
+    $$(RV).forEach(function(el){
+      var r = el.getBoundingClientRect();
+      if(r.top < vh * 1.02 && r.bottom > -60){ show(el); }
+    });
+  }
+  function revealAll(){ $$(RV).forEach(show); }
+  function observeReveal(){
+    var els = $$(RV);
+    if(reduce || !("IntersectionObserver" in window)){ revealAll(); return; }
+    if(!revObs){
+      revObs = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){ show(en.target); revObs.unobserve(en.target); } });
+      }, {rootMargin:"0px 0px 10% 0px", threshold:0});
+    }
+    els.forEach(function(el){ revObs.observe(el); });
+    revealInView();
+  }
+  var countTrigger = null;
+  function kickCounters(){
+    if(!countTrigger) return;
+    var vh = window.innerHeight || 800;
+    $$("[data-count]:not([data-done])").forEach(function(el){
+      if(el.getBoundingClientRect().top < vh * 1.05){ countTrigger(el); }
+    });
+  }
+  function safetyPass(){
+    revealInView(); kickCounters();
+    if(window.innerHeight >= document.documentElement.scrollHeight - 8){ revealAll(); }
+  }
+  window.addEventListener("load", function(){
+    safetyPass();
+    setTimeout(safetyPass, 600);
+    setTimeout(function(){ revealAll(); safetyPass(); }, 1500);
+    setTimeout(function(){ revealAll(); kickCounters(); }, 2600);
+  });
+  window.addEventListener("resize", revealInView);
+  var st; window.addEventListener("scroll", function(){ clearTimeout(st); st = setTimeout(kickCounters, 120); }, {passive:true});
+
+  function runCounters(){
+    var els = $$("[data-count]:not([data-done])");
+    function trigger(el){
+      if(el.dataset.done) return;
+      el.dataset.done = "1";
+      var target = parseFloat(el.dataset.count), dec = parseInt(el.dataset.dec||"0",10), dur = reduce ? 0 : 1500, t0 = null;
+      function tick(ts){
+        if(!t0) t0 = ts;
+        var p = dur ? Math.min(1,(ts-t0)/dur) : 1;
+        var e = 1 - Math.pow(1-p, 3);
+        var v = target * e;
+        el.textContent = dec ? v.toFixed(dec) : Math.round(v).toLocaleString("en-US");
+        if(p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    countTrigger = trigger;
+    if(!("IntersectionObserver" in window)){ els.forEach(trigger); return; }
+    var co = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ trigger(en.target); co.unobserve(en.target); } });
+    }, {threshold:.4});
+    els.forEach(function(el){ co.observe(el); });
+    kickCounters();
+  }
+
+  /* ---------------- INIT ---------------- */
+  if(!location.hash) location.replace("#/");
+  route();
+  observeReveal();
+  runCounters();
+  safetyPass();
+  setTimeout(safetyPass, 700);
+  setTimeout(safetyPass, 2100);
+  $("#year").textContent = new Date().getFullYear();
+  window.addEventListener("resize", function(){ if(window.innerWidth > 1080) closeDrawer(); });
+})();
+</script>
