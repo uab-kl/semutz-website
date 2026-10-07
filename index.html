@@ -171,8 +171,8 @@ section{position:relative}
 }
 .nav.is-stuck{border-bottom-color:var(--line);background:color-mix(in srgb,var(--bg) 90%,transparent)}
 .nav-in{display:flex;align-items:center;gap:clamp(.75rem,2vw,2rem);height:66px}
-.brand{display:flex;align-items:center;gap:.6rem;font-family:var(--f-display);font-weight:700;font-size:1.06rem;letter-spacing:-.02em;flex:none}
-.brand svg{width:44px;height:44px;flex:none}
+.brand{display:flex;align-items:center;gap:.4rem;font-family:var(--f-display);font-weight:700;font-size:1.06rem;letter-spacing:-.02em;flex:none}
+.brand svg,.brand img{width:54px;height:54px;flex:none}
 .brand small{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.22em;color:var(--tx-3);font-weight:500;text-transform:uppercase;display:block;line-height:1;margin-top:2px}
 .nav-links{display:flex;align-items:center;gap:.15rem;margin-left:auto}
 .nav-links a,.nav-links button.navlink{
@@ -633,13 +633,7 @@ textarea.inp{min-height:118px;resize:vertical}
 <header class="nav" id="nav">
   <div class="wrap nav-in">
     <a class="brand" href="#/" aria-label="Semutz home">
-      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-        <defs><linearGradient id="bm" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#EA580C"/><stop offset="1" stop-color="#DC2626"/></linearGradient></defs>
-        <path d="M6 25C6 15 12 9 26 8" stroke="url(#bm)" stroke-width="2.2" stroke-linecap="round"/>
-        <circle cx="6" cy="25" r="3.4" fill="url(#bm)"/>
-        <circle cx="16" cy="15.6" r="2.5" fill="#FBBF24"/>
-        <circle cx="26" cy="8" r="4.2" stroke="url(#bm)" stroke-width="2.2"/>
-      </svg>
+      <img src="assets/logo.jpeg" alt="" aria-hidden="true" style="border-radius:50%;object-fit:cover">
       <span>Semutz<small>FMCG OS</small></span>
     </a>
 
@@ -1092,7 +1086,7 @@ textarea.inp{min-height:118px;resize:vertical}
 
           <g class="node" style="color:#EA580C">
             <circle cx="90" cy="118" r="26" fill="none" stroke="#EA580C" stroke-width="2"/>
-            <text x="90" y="124" text-anchor="middle" fill="#EA580C" style="font-family:var(--f-mono);font-size:15px;font-weight:600">SFA</text>
+            <text x="90" y="124" text-anchor="middle" fill="#EA580C" style="font-family:var(--f-mono);font-size:15px;font-weight:600">ERP</text>
             <text class="node-t" x="90" y="66" text-anchor="middle">Order placed</text>
             <text class="node-lab" x="90" y="180" text-anchor="middle">REP / RETAILER</text>
           </g>
@@ -1110,7 +1104,7 @@ textarea.inp{min-height:118px;resize:vertical}
           </g>
           <g class="node" style="color:#FBBF24">
             <circle cx="910" cy="118" r="26" fill="none" stroke="#FBBF24" stroke-width="2"/>
-            <text x="910" y="124" text-anchor="middle" fill="#FBBF24" style="font-family:var(--f-mono);font-size:12px;font-weight:600">SHELF</text>
+            <text x="910" y="124" text-anchor="middle" fill="#FBBF24" style="font-family:var(--f-mono);font-size:12px;font-weight:600">OUTLET</text>
             <text class="node-t" x="910" y="66" text-anchor="middle">Invoiced</text>
             <text class="node-lab" x="910" y="180" text-anchor="middle">RETAIL OUTLET</text>
           </g>
@@ -1888,10 +1882,7 @@ query {
     <div class="foot-grid">
       <div>
         <a class="brand" href="#/" style="margin-bottom:1rem">
-          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <path d="M6 25C6 15 12 9 26 8" stroke="url(#bm)" stroke-width="2.2" stroke-linecap="round"/>
-            <circle cx="6" cy="25" r="3.4" fill="url(#bm)"/><circle cx="16" cy="15.6" r="2.5" fill="#FBBF24"/><circle cx="26" cy="8" r="4.2" stroke="url(#bm)" stroke-width="2.2"/>
-          </svg>
+          <img src="assets/logo.jpeg" alt="" aria-hidden="true" style="border-radius:50%;object-fit:cover">
           <span>Semutz<small>FMCG OS</small></span>
         </a>
         <p class="muted" style="font-size:var(--fs-sm);max-width:34ch">The operating system for FMCG distribution — from sales rep to retail shelf.</p>
